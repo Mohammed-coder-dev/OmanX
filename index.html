@@ -4,142 +4,420 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="OmanX is a future systems lab for Oman—talent, research, and execution." />
-  <title>OmanX</title>
+  <title>OmanX — Future Systems Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
+  <div class="grain"></div>
+
   <div class="wrap">
     <header>
       <div class="brand">
-        <span class="dot"></span>
-        <span>OmanX</span>
-        <small>Future Systems Lab</small>
+        <svg class="logo-mark" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="12" cy="12" r="4" fill="currentColor"/>
+        </svg>
+        <div class="brand-text">
+          <span class="brand-name">OmanX</span>
+          <span class="brand-tagline">Future Systems Lab</span>
+        </div>
       </div>
 
       <nav>
         <a href="#mission">Mission</a>
-        <a href="#pillars">Pillars</a>
-        <a href="#projects">Projects</a>
-        <a href="#notes">Notes</a>
+        <a href="#approach">Approach</a>
+        <a href="#work">Work</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>
 
     <main id="main">
       <section class="hero">
-        <div>
-          <div class="pill">
-            <span></span>
-            <strong>Building in public</strong>
-            <em>v0.1</em>
+        <div class="hero-content">
+          <div class="status-badge">
+            <span class="status-indicator"></span>
+            <span class="status-text">Building in public</span>
+            <span class="status-version">Alpha</span>
           </div>
 
-          <h1>Oman’s next decade needs builders, not buzz.</h1>
-          <p class="lead">
-            OmanX is a systems-focused platform for talent, research,
-            and real projects. We publish what we learn and ship what we can prove.
+          <h1 class="hero-title">
+            Building systems<br/>
+            for Oman's next<br/>
+            economic era
+          </h1>
+          
+          <p class="hero-description">
+            A research and execution platform focused on long-term systems thinking,
+            proof-driven ventures, and exceptional talent—designed for those building 
+            Oman's future, not chasing trends.
           </p>
 
-          <div class="ctaRow">
-            <a class="btn primary" href="#contact">Join the network</a>
-            <a class="btn" href="#projects">View projects</a>
-            <a class="btn" href="#notes">Read notes</a>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="#contact">
+              <span>Join the network</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a class="btn btn-secondary" href="#work">View active work</a>
           </div>
         </div>
 
-        <aside class="card">
-          <p class="kicker">Snapshot</p>
-          <ul class="meta">
-            <li><b>Focus:</b> systems & execution</li>
-            <li><b>Scope:</b> research, ventures, talent</li>
-            <li><b>Mode:</b> long-term, proof-driven</li>
-            <li><b>Status:</b> early build</li>
-          </ul>
+        <aside class="hero-metrics">
+          <div class="metric-card">
+            <div class="metric-label">Operating Model</div>
+            <div class="metric-grid">
+              <div class="metric-item">
+                <div class="metric-value">Systems-first</div>
+                <div class="metric-desc">Compound leverage</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-value">Proof-driven</div>
+                <div class="metric-desc">Evidence required</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-value">Long-term</div>
+                <div class="metric-desc">5-10 year horizon</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-value">Open source</div>
+                <div class="metric-desc">Transparent process</div>
+              </div>
+            </div>
+          </div>
         </aside>
       </section>
 
-      <section id="pillars">
-        <div class="sectionHead">
-          <h2>Pillars</h2>
-          <p class="sub">Where leverage compounds.</p>
+      <section id="mission" class="section-mission">
+        <div class="section-header">
+          <div class="section-number">01</div>
+          <div>
+            <h2 class="section-title">Mission</h2>
+            <p class="section-subtitle">Why we exist</p>
+          </div>
         </div>
 
-        <div class="grid3">
-          <div class="card">
-            <h3 class="itemTitle">Talent</h3>
-            <p class="itemBody">
-              Identifying and supporting Omani builders with demonstrated ability,
-              not surface credentials.
+        <div class="mission-content">
+          <div class="mission-statement">
+            <p class="large-text">
+              Oman's next decade will be defined not by what gets announced, 
+              but by what gets built. We identify leverage points where systems 
+              thinking, exceptional execution, and patient capital can create 
+              durable value.
             </p>
           </div>
 
-          <div class="card">
-            <h3 class="itemTitle">Projects</h3>
-            <p class="itemBody">
-              Small, high-conviction initiatives aligned with national leverage points.
-            </p>
-          </div>
-
-          <div class="card">
-            <h3 class="itemTitle">Research</h3>
-            <p class="itemBody">
-              Systems-level analysis published openly and iterated in public.
-            </p>
+          <div class="mission-principles">
+            <div class="principle">
+              <div class="principle-number">1</div>
+              <div class="principle-content">
+                <h3>Systems over symptoms</h3>
+                <p>We focus on root causes and feedback loops, not surface-level fixes.</p>
+              </div>
+            </div>
+            <div class="principle">
+              <div class="principle-number">2</div>
+              <div class="principle-content">
+                <h3>Proof over promise</h3>
+                <p>Every claim requires evidence. Every project requires measurable progress.</p>
+              </div>
+            </div>
+            <div class="principle">
+              <div class="principle-number">3</div>
+              <div class="principle-content">
+                <h3>Talent over credentials</h3>
+                <p>We evaluate by demonstrated ability and sustained effort, not pedigree.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="projects">
-        <div class="sectionHead">
-          <h2>Active Threads</h2>
-          <p class="sub">Early-stage explorations.</p>
+      <section id="approach" class="section-approach">
+        <div class="section-header">
+          <div class="section-number">02</div>
+          <div>
+            <h2 class="section-title">Our Approach</h2>
+            <p class="section-subtitle">Three interconnected pillars</p>
+          </div>
         </div>
 
-        <div class="list">
-          <div class="row">
-            <div class="left">
-              <strong>Desert Systems Modeling</strong>
-              <p class="itemBody">
-                Studying sustainability constraints and feedback loops unique to arid regions.
-              </p>
+        <div class="pillars">
+          <div class="pillar">
+            <div class="pillar-icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <path d="M16 6L26 11.5V20.5L16 26L6 20.5V11.5L16 6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M16 16L26 11.5M16 16L6 11.5M16 16V26" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </div>
-            <span class="tag">research</span>
+            <h3 class="pillar-title">Research</h3>
+            <p class="pillar-description">
+              Systems-level analysis of Oman's economy, published openly. 
+              We study feedback loops, constraints, and leverage points—then 
+              iterate in public based on new data.
+            </p>
+            <div class="pillar-meta">
+              <span class="meta-item">Long-form publications</span>
+              <span class="meta-item">Data models</span>
+              <span class="meta-item">Open methodology</span>
+            </div>
           </div>
 
-          <div class="row">
-            <div class="left">
-              <strong>Talent Signal Mapping</strong>
-              <p class="itemBody">
-                Non-traditional indicators for identifying high-potential contributors.
-              </p>
+          <div class="pillar">
+            <div class="pillar-icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <circle cx="16" cy="9" r="3" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="9" cy="23" r="3" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="23" cy="23" r="3" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M16 12V16M16 16L11 20M16 16L21 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
             </div>
-            <span class="tag">platform</span>
+            <h3 class="pillar-title">Ventures</h3>
+            <p class="pillar-description">
+              Small, high-conviction projects aligned with identified leverage 
+              points. Each initiative is designed to test systems hypotheses 
+              with real-world execution.
+            </p>
+            <div class="pillar-meta">
+              <span class="meta-item">Proof-of-concept</span>
+              <span class="meta-item">Scalable models</span>
+              <span class="meta-item">Exit optionality</span>
+            </div>
+          </div>
+
+          <div class="pillar">
+            <div class="pillar-icon">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <rect x="6" y="6" width="20" height="20" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M12 14L15 17L20 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3 class="pillar-title">Talent</h3>
+            <p class="pillar-description">
+              Identifying and supporting Omani builders through non-traditional 
+              signals—demonstrated work, sustained contributions, and intellectual 
+              curiosity over résumé credentials.
+            </p>
+            <div class="pillar-meta">
+              <span class="meta-item">Builder network</span>
+              <span class="meta-item">Project support</span>
+              <span class="meta-item">Capital access</span>
+            </div>
           </div>
         </div>
       </section>
 
-      <section id="contact">
-        <div class="sectionHead">
-          <h2>Contact</h2>
-          <p class="sub">Low volume. High intent.</p>
+      <section id="work" class="section-work">
+        <div class="section-header">
+          <div class="section-number">03</div>
+          <div>
+            <h2 class="section-title">Active Work</h2>
+            <p class="section-subtitle">Current research and execution threads</p>
+          </div>
         </div>
 
-        <form>
-          <input class="field" type="email" placeholder="Email" required />
-          <input class="field" type="text" placeholder="Focus area" />
-          <textarea placeholder="Why should we talk?"></textarea>
-          <button class="btn primary" type="submit">Send</button>
-        </form>
+        <div class="work-list">
+          <div class="work-item">
+            <div class="work-header">
+              <div class="work-title-group">
+                <h3 class="work-title">Desert Systems Modeling</h3>
+                <span class="work-tag research">Research</span>
+              </div>
+              <div class="work-status">
+                <span class="status-dot active"></span>
+                <span>Active</span>
+              </div>
+            </div>
+            <p class="work-description">
+              Quantitative analysis of sustainability constraints in arid regions. 
+              Examining water-energy-food nexus, feedback loops in desert agriculture, 
+              and economic models adapted for extreme climate conditions.
+            </p>
+            <div class="work-meta">
+              <span class="meta-tag">Q1 2025</span>
+              <span class="meta-tag">Systems analysis</span>
+              <span class="meta-tag">Public dataset</span>
+            </div>
+          </div>
+
+          <div class="work-item">
+            <div class="work-header">
+              <div class="work-title-group">
+                <h3 class="work-title">Talent Signal Network</h3>
+                <span class="work-tag platform">Platform</span>
+              </div>
+              <div class="work-status">
+                <span class="status-dot active"></span>
+                <span>Active</span>
+              </div>
+            </div>
+            <p class="work-description">
+              Building infrastructure to discover high-potential contributors through 
+              demonstrated work patterns, not credentials. Tracking meaningful indicators: 
+              GitHub contributions, long-form writing, side projects, community building.
+            </p>
+            <div class="work-meta">
+              <span class="meta-tag">Beta testing</span>
+              <span class="meta-tag">Talent discovery</span>
+              <span class="meta-tag">ML-powered</span>
+            </div>
+          </div>
+
+          <div class="work-item">
+            <div class="work-header">
+              <div class="work-title-group">
+                <h3 class="work-title">Economic Complexity Analysis</h3>
+                <span class="work-tag research">Research</span>
+              </div>
+              <div class="work-status">
+                <span class="status-dot planning"></span>
+                <span>Planning</span>
+              </div>
+            </div>
+            <p class="work-description">
+              Applying product space methodology to Oman's economic structure. 
+              Identifying adjacent capabilities with highest probability of successful 
+              development based on existing industrial capacity.
+            </p>
+            <div class="work-meta">
+              <span class="meta-tag">Q2 2025</span>
+              <span class="meta-tag">Network analysis</span>
+              <span class="meta-tag">Policy implications</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section-contact">
+        <div class="contact-container">
+          <div class="contact-intro">
+            <h2 class="contact-title">Start a conversation</h2>
+            <p class="contact-description">
+              We're interested in speaking with builders, researchers, and operators 
+              who think in systems and execute with discipline. Low volume, high intent.
+            </p>
+            
+            <div class="contact-criteria">
+              <div class="criteria-title">We want to hear from you if:</div>
+              <ul class="criteria-list">
+                <li>You're building something ambitious in or for Oman</li>
+                <li>You've identified a systems-level opportunity we should explore</li>
+                <li>You have unique data or insights on leverage points</li>
+                <li>You're an investor interested in proof-driven ventures</li>
+              </ul>
+            </div>
+          </div>
+
+          <form class="contact-form">
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input 
+                id="email" 
+                type="email" 
+                placeholder="you@example.com" 
+                required 
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="area">Primary focus</label>
+              <input 
+                id="area" 
+                type="text" 
+                placeholder="Research, ventures, talent, investment, etc." 
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="message">Why should we talk?</label>
+              <textarea 
+                id="message" 
+                rows="6" 
+                placeholder="Be specific about your work, ideas, or what you're looking to accomplish."
+              ></textarea>
+            </div>
+
+            <button class="btn btn-primary btn-full" type="submit">
+              <span>Send message</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M2 8H14M14 8L8 2M14 8L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </form>
+        </div>
       </section>
     </main>
 
     <footer>
-      <span>© OmanX</span>
-      <span>Quietly building</span>
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="12" cy="12" r="4" fill="currentColor"/>
+            </svg>
+            <span>OmanX</span>
+          </div>
+          <p class="footer-tagline">Building Oman's future systems</p>
+        </div>
+
+        <div class="footer-links">
+          <a href="#mission">Mission</a>
+          <a href="#approach">Approach</a>
+          <a href="#work">Work</a>
+          <a href="#contact">Contact</a>
+        </div>
+
+        <div class="footer-meta">
+          <span>© 2025 OmanX</span>
+          <span class="footer-divider">·</span>
+          <span>Quietly building</span>
+        </div>
+      </div>
     </footer>
   </div>
+
+  <script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Form submission
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Form submission would be handled by your backend service.');
+    });
+
+    // Intersection observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.pillar, .work-item, .principle').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
