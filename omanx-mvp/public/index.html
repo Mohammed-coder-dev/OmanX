@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OmanX — Ministry Pilot MVP</title>
+    <meta name="description" content="Government-grade onboarding assistant for Omani scholars in the United States." />
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="icon" href="data:," />
+  </head>
+
+  <body>
+    <div class="bg">
+      <div class="bg-grid"></div>
+      <div class="bg-glow"></div>
+      <div class="bg-vignette"></div>
+    </div>
+
+    <main class="shell">
+      <!-- Top -->
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">
+            <span class="logo-dot"></span>
+          </div>
+          <div class="brand-text">
+            <div class="brand-row">
+              <h1>OmanX</h1>
+              <span class="badge">Pilot MVP</span>
+            </div>
+            <p>Government-grade guidance for Omani scholars in the United States.</p>
+          </div>
+        </div>
+
+        <div class="top-actions">
+          <span class="pill" id="statusPill" title="Service status">
+            <span class="pill-dot"></span>
+            <span class="pill-text">Online</span>
+          </span>
+          <a class="ghost" href="/health" target="_blank" rel="noreferrer">Health</a>
+          <button class="ghost" id="printBtn" type="button">Print</button>
+        </div>
+      </header>
+
+      <!-- Hero -->
+      <section class="hero">
+        <div class="hero-left">
+          <div class="hero-title">
+            <h2>Onboarding, simplified.</h2>
+            <p class="muted">
+              Structured checklists + an AI assistant constrained to approved sources.
+              No guessing. Clear escalation. Built for institutional trust.
+            </p>
+          </div>
+
+          <div class="hero-cards">
+            <div class="mini">
+              <div class="mini-k">Outcome</div>
+              <div class="mini-v">Fewer mistakes</div>
+              <div class="mini-s">Visa/housing/banking setup with step-by-step guidance.</div>
+            </div>
+            <div class="mini">
+              <div class="mini-k">Control</div>
+              <div class="mini-v">Official Mode</div>
+              <div class="mini-s">Answers must cite approved knowledge and policies.</div>
+            </div>
+            <div class="mini">
+              <div class="mini-k">Safety</div>
+              <div class="mini-v">Escalation</div>
+              <div class="mini-s">High-stakes topics route to official offices.</div>
+            </div>
+          </div>
+
+          <div class="hero-row">
+            <button class="primary" id="demoBtn" type="button">Run demo flow</button>
+            <button class="ghost" id="exportBtn" type="button">Export last answer</button>
+            <button class="ghost" id="copyBtn" type="button">Copy last</button>
+          </div>
+
+          <div class="fine">
+            <span class="fine-label">Institution-ready</span>
+            <span class="fine-dot">•</span>
+            <span class="fine-text">Audit-friendly format • Minimal personal data • Clear disclaimers</span>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <div class="panel-title">Pilot dashboard</div>
+                <div class="panel-sub muted">Demo metrics (wireframe for ministry review)</div>
+              </div>
+              <button class="ghost" id="refreshMetricsBtn" type="button">Refresh</button>
+            </div>
+
+            <div class="metrics">
+              <div class="metric">
+                <div class="metric-k">Questions answered</div>
+                <div class="metric-v" id="mAnswered">—</div>
+              </div>
+              <div class="metric">
+                <div class="metric-k">Avg. response time</div>
+                <div class="metric-v" id="mLatency">—</div>
+              </div>
+              <div class="metric">
+                <div class="metric-k">Escalation rate</div>
+                <div class="metric-v" id="mEscalation">—</div>
+              </div>
+              <div class="metric">
+                <div class="metric-k">Top topic</div>
+                <div class="metric-v" id="mTopic">—</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="toggle-row">
+              <div>
+                <div class="panel-title">Response policy</div>
+                <div class="panel-sub muted">Choose the level of strictness.</div>
+              </div>
+
+              <div class="segmented" role="tablist" aria-label="Response policy mode">
+                <button class="seg on" id="modeOfficial" type="button" role="tab" aria-selected="true">
+                  Official
+                </button>
+                <button class="seg" id="modeCommunity" type="button" role="tab" aria-selected="false">
+                  Community
+                </button>
+              </div>
+            </div>
+
+            <div class="callout">
+              <div class="callout-title">Official mode</div>
+              <div class="callout-text" id="modeText">
+                Responses must cite approved knowledge. If uncertain, OmanX escalates.
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="panel-foot">
+              <div class="muted small">
+                Disclaimer: informational guidance only. For immigration/legal/medical matters, consult official offices.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main -->
+      <section class="layout">
+        <!-- Left -->
+        <aside class="card side">
+          <div class="card-head">
+            <h3>Onboarding playbooks</h3>
+            <p class="muted">Click to insert a structured request.</p>
+          </div>
+
+          <div class="block">
+            <div class="list2">
+              <button class="item" data-prompt="Build a 24-hour arrival plan with steps, documents to keep accessible, and what to do if something goes wrong.">
+                <div class="item-title">24-hour arrival plan</div>
+                <div class="item-sub muted">Airport → SIM → transport → housing → essentials</div>
+              </button>
+
+              <button class="item" data-prompt="Give me a first-week checklist: SIM, banking, housing basics, campus ID, and who to contact at the university.">
+                <div class="item-title">First-week checklist</div>
+                <div class="item-sub muted">Practical setup + escalation contacts</div>
+              </button>
+
+              <button class="item" data-prompt="I have a question that might affect immigration status. Give me the safest next step and official escalation guidance.">
+                <div class="item-title">Immigration: safest next step</div>
+                <div class="item-sub muted">No guessing, only official guidance</div>
+              </button>
+
+              <button class="item" data-prompt="What documents should I keep accessible during travel and the first 48 hours in the U.S.?">
+                <div class="item-title">Travel documents</div>
+                <div class="item-sub muted">What to carry + why</div>
+              </button>
+
+              <button class="item" data-prompt="Create a one-page ‘survival guide’ for day 1 in the U.S. for a new student.">
+                <div class="item-title">Day-1 survival guide</div>
+                <div class="item-sub muted">One-page, print-ready</div>
+              </button>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="block">
+            <h4 class="subhead">What makes this ministry-ready</h4>
+            <ul class="bullets">
+              <li><strong>Constrained outputs</strong> — OmanX answers from approved sources only.</li>
+              <li><strong>Auditability</strong> — Responses are structured and cite references.</li>
+              <li><strong>Escalation</strong> — High-stakes topics route to officials.</li>
+              <li><strong>Low data risk</strong> — MVP requires minimal personal data.</li>
+            </ul>
+          </div>
+
+          <footer class="side-foot">
+            <div class="fine muted">
+              <span>© <span id="year"></span> OmanX</span>
+              <span class="fine-dot">•</span>
+              <span>Built for clarity under pressure.</span>
+            </div>
+          </footer>
+        </aside>
+
+        <!-- Right: Chat -->
+        <section class="card chat">
+          <div class="card-head chat-head">
+            <div>
+              <h3>OmanX Assistant</h3>
+              <p class="muted">Clear steps. References. Escalation triggers.</p>
+            </div>
+            <div class="chat-actions">
+              <button class="ghost" id="clearBtn" type="button">Clear</button>
+            </div>
+          </div>
+
+          <div id="chat" class="chat-scroll" role="log" aria-live="polite"></div>
+
+          <div class="composer">
+            <form id="form" class="composer-row">
+              <div class="input-wrap">
+                <textarea
+                  id="input"
+                  rows="2"
+                  placeholder="Ask about arrival, banking, SIM, housing, campus onboarding…"
+                ></textarea>
+                <div class="hint">
+                  <kbd>Enter</kbd> send · <kbd>Shift</kbd>+<kbd>Enter</kbd> newline
+                </div>
+              </div>
+
+              <button id="send" class="send" type="submit">
+                <span class="send-text">Send</span>
+                <span class="send-icon" aria-hidden="true">↵</span>
+              </button>
+            </form>
+
+            <p class="disclaimer">
+              Disclaimer: informational guidance only. For immigration/legal/medical matters, follow official instructions and contact the appropriate office.
+            </p>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

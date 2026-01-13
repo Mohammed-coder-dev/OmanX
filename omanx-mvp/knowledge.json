@@ -1,0 +1,23 @@
+{
+  "sources": [
+    {
+      "id": "arrival_checklist_v1",
+      "title": "OmanX — Arrival Checklist (v1)",
+      "url": "https://omanx.org/arrival",
+      "content": [
+        "On arrival: keep passport + I-20/DS-2019 accessible.",
+        "Buy a SIM/eSIM, then set up banking and local transport.",
+        "If you are an F-1 student, contact your DSO for anything that affects status."
+      ]
+    },
+    {
+      "id": "safety_escalation_v1",
+      "title": "OmanX — Escalation Rules (v1)",
+      "url": "https://omanx.org/support",
+      "content": [
+        "For legal/immigration questions, do not give definitive advice; provide official links and advise contacting the DSO/university office.",
+        "For medical emergencies: call local emergency services; do not provide medical directives."
+      ]
+    }
+  ]
+}
