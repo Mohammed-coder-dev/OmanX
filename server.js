@@ -38,8 +38,16 @@ const app = express();
 // Body parsing
 app.use(express.json({ limit: "1mb" }));
 
-// Serve static frontend
-app.use(express.static(path.join(__dirname, "public")));
+// Serve root-based frontend files
+app.get("/", (_req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+app.get("/styles.css", (_req, res) => {
+  res.sendFile(path.join(__dirname, "styles.css"));
+});
+app.get("/app.js", (_req, res) => {
+  res.sendFile(path.join(__dirname, "app.js"));
+});
 
 // Health check
 app.get("/health", (_req, res) => res.json({ ok: true }));
@@ -84,7 +92,7 @@ app.post("/chat", async (req, res) => {
 
 // SPA fallback (Express 5-safe: do NOT use app.get("*", ...))
 app.use((_req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 const server = app.listen(PORT, () => {
