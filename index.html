@@ -19,37 +19,87 @@
     <!-- Drawer overlay + drawer -->
     <div class="overlay" id="overlay" hidden></div>
 
-    <aside
-      class="drawer"
-      id="drawer"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Policy and details"
-      hidden
-    >
+    <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Policy and details" hidden>
       <div class="drawer__head">
         <div class="drawer__title">
           <div class="drawer__kicker muted">OmanX</div>
-          <h2>Policy & Details</h2>
+          <h2>Menu</h2>
         </div>
-        <button class="iconbtn" id="closeBtn" type="button" aria-label="Close menu">
-          ✕
-        </button>
+        <button class="iconbtn" id="closeBtn" type="button" aria-label="Close menu">✕</button>
       </div>
 
       <div class="drawer__content">
+        <!-- Quick actions -->
         <section class="drawer__section">
-          <h3>What makes this ministry-ready</h3>
-          <ul class="bullets">
-            <li><strong>Constrained outputs</strong> — OmanX answers from approved sources only.</li>
-            <li><strong>Auditability</strong> — Responses are structured and cite references.</li>
-            <li><strong>Escalation</strong> — High-stakes topics route to officials.</li>
-            <li><strong>Low data risk</strong> — MVP requires minimal personal data.</li>
-          </ul>
+          <h3>Quick actions</h3>
+          <div class="btnrow">
+            <button class="primary" id="demoBtn_2" type="button">Run demo flow</button>
+            <button class="ghost" id="clearBtn_2" type="button">Clear chat</button>
+            <button class="ghost" id="exportBtn_2" type="button">Export last answer</button>
+            <button class="ghost" id="copyBtn_2" type="button">Copy last</button>
+            <button class="ghost" id="printBtn_2" type="button">Print</button>
+            <a class="ghost" href="/health" target="_blank" rel="noreferrer">Health</a>
+          </div>
         </section>
 
         <div class="divider"></div>
 
+        <!-- Playbooks (prompt shortcuts) -->
+        <section class="drawer__section">
+          <h3>Onboarding playbooks</h3>
+          <p class="muted small">Tap to insert a structured request.</p>
+
+          <div class="list2">
+            <button
+              class="item"
+              data-prompt="Build a 24-hour arrival plan with steps, documents to keep accessible, and what to do if something goes wrong."
+              type="button"
+            >
+              <div class="item-title">24-hour arrival plan</div>
+              <div class="item-sub muted">Airport → SIM → transport → housing → essentials</div>
+            </button>
+
+            <button
+              class="item"
+              data-prompt="Give me a first-week checklist: SIM, banking, housing basics, campus ID, and who to contact at the university."
+              type="button"
+            >
+              <div class="item-title">First-week checklist</div>
+              <div class="item-sub muted">Practical setup + escalation contacts</div>
+            </button>
+
+            <button
+              class="item"
+              data-prompt="I have a question that might affect immigration status. Give me the safest next step and official escalation guidance."
+              type="button"
+            >
+              <div class="item-title">Immigration: safest next step</div>
+              <div class="item-sub muted">No guessing, only official guidance</div>
+            </button>
+
+            <button
+              class="item"
+              data-prompt="What documents should I keep accessible during travel and the first 48 hours in the U.S.?"
+              type="button"
+            >
+              <div class="item-title">Travel documents</div>
+              <div class="item-sub muted">What to carry + why</div>
+            </button>
+
+            <button
+              class="item"
+              data-prompt="Create a one-page ‘survival guide’ for day 1 in the U.S. for a new student."
+              type="button"
+            >
+              <div class="item-title">Day-1 survival guide</div>
+              <div class="item-sub muted">One-page, print-ready</div>
+            </button>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- Policy -->
         <section class="drawer__section">
           <div class="toggle-row">
             <div>
@@ -77,22 +127,24 @@
 
         <div class="divider"></div>
 
+        <!-- Ministry-ready -->
         <section class="drawer__section">
-          <h3>Exports</h3>
-          <div class="btnrow">
-            <button class="ghost" id="exportBtn_2" type="button">Export last answer</button>
-            <button class="ghost" id="copyBtn_2" type="button">Copy last</button>
-            <button class="ghost" id="printBtn_2" type="button">Print</button>
-            <a class="ghost" href="/health" target="_blank" rel="noreferrer">Health</a>
-          </div>
+          <h3>Ministry-ready</h3>
+          <ul class="bullets">
+            <li><strong>Constrained outputs</strong> — OmanX answers from approved sources only.</li>
+            <li><strong>Auditability</strong> — Responses are structured and cite references.</li>
+            <li><strong>Escalation</strong> — High-stakes topics route to officials.</li>
+            <li><strong>Low data risk</strong> — MVP requires minimal personal data.</li>
+          </ul>
         </section>
 
         <div class="divider"></div>
 
+        <!-- Disclaimer -->
         <section class="drawer__section">
           <h3>Disclaimer</h3>
           <p class="muted small">
-            Disclaimer: informational guidance only. For immigration/legal/medical matters, consult official offices.
+            Informational guidance only. For immigration/legal/medical matters, follow official instructions and consult the appropriate office.
           </p>
         </section>
 
@@ -106,7 +158,7 @@
       </div>
     </aside>
 
-    <main class="shell">
+    <main class="shell shell-chat">
       <!-- Top -->
       <header class="topbar">
         <div class="brand">
@@ -123,7 +175,7 @@
         </div>
 
         <div class="top-actions">
-          <!-- NEW: Hamburger / Details button -->
+          <!-- Hamburger / Drawer button -->
           <button
             class="iconbtn"
             id="menuBtn"
@@ -131,7 +183,7 @@
             aria-label="Open menu"
             aria-expanded="false"
             aria-controls="drawer"
-            title="Policy & details"
+            title="Menu"
           >
             <span class="hamburger" aria-hidden="true"><span></span></span>
           </button>
@@ -143,167 +195,9 @@
         </div>
       </header>
 
-      <!-- Hero -->
-      <section class="hero">
-        <div class="hero-left">
-          <div class="hero-title">
-            <h2>Onboarding, simplified.</h2>
-            <p class="muted">
-              Structured checklists + an AI assistant constrained to approved sources.
-              No guessing. Clear escalation. Built for institutional trust.
-            </p>
-          </div>
-
-          <div class="hero-cards">
-            <div class="mini">
-              <div class="mini-k">Outcome</div>
-              <div class="mini-v">Fewer mistakes</div>
-              <div class="mini-s">Visa/housing/banking setup with step-by-step guidance.</div>
-            </div>
-            <div class="mini">
-              <div class="mini-k">Control</div>
-              <div class="mini-v">Official Mode</div>
-              <div class="mini-s">Answers must cite approved knowledge and policies.</div>
-            </div>
-            <div class="mini">
-              <div class="mini-k">Safety</div>
-              <div class="mini-v">Escalation</div>
-              <div class="mini-s">High-stakes topics route to official offices.</div>
-            </div>
-          </div>
-
-          <div class="hero-row">
-            <button class="primary" id="demoBtn" type="button">Run demo flow</button>
-            <button class="ghost" id="exportBtn" type="button">Export last answer</button>
-            <button class="ghost" id="copyBtn" type="button">Copy last</button>
-          </div>
-
-          <div class="fine">
-            <span class="fine-label">Institution-ready</span>
-            <span class="fine-dot">•</span>
-            <span class="fine-text">Audit-friendly format • Minimal personal data • Clear disclaimers</span>
-          </div>
-        </div>
-
-        <div class="hero-right">
-          <div class="panel">
-            <div class="panel-head">
-              <div>
-                <div class="panel-title">Pilot dashboard</div>
-                <div class="panel-sub muted">Demo metrics (wireframe for ministry review)</div>
-              </div>
-              <button class="ghost" id="refreshMetricsBtn" type="button">Refresh</button>
-            </div>
-
-            <div class="metrics">
-              <div class="metric">
-                <div class="metric-k">Questions answered</div>
-                <div class="metric-v" id="mAnswered">—</div>
-              </div>
-              <div class="metric">
-                <div class="metric-k">Avg. response time</div>
-                <div class="metric-v" id="mLatency">—</div>
-              </div>
-              <div class="metric">
-                <div class="metric-k">Escalation rate</div>
-                <div class="metric-v" id="mEscalation">—</div>
-              </div>
-              <div class="metric">
-                <div class="metric-k">Top topic</div>
-                <div class="metric-v" id="mTopic">—</div>
-              </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- Keep this compact on the main page, details live in drawer -->
-            <div class="toggle-row">
-              <div>
-                <div class="panel-title">Response policy</div>
-                <div class="panel-sub muted">Choose the level of strictness.</div>
-              </div>
-
-              <div class="segmented" role="tablist" aria-label="Response policy mode">
-                <button class="seg on" id="modeOfficial" type="button" role="tab" aria-selected="true">
-                  Official
-                </button>
-                <button class="seg" id="modeCommunity" type="button" role="tab" aria-selected="false">
-                  Community
-                </button>
-              </div>
-            </div>
-
-            <div class="callout">
-              <div class="callout-title">Official mode</div>
-              <div class="callout-text" id="modeText">
-                Responses must cite approved knowledge. If uncertain, OmanX escalates.
-              </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="panel-foot">
-              <div class="muted small">
-                Disclaimer: informational guidance only. For immigration/legal/medical matters, consult official offices.
-                <span class="fine-dot">•</span>
-                <button class="linklike" id="openDetailsBtn" type="button">Policy & details</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Main -->
-      <section class="layout">
-        <!-- Left -->
-        <aside class="card side">
-          <div class="card-head">
-            <h3>Onboarding playbooks</h3>
-            <p class="muted">Click to insert a structured request.</p>
-          </div>
-
-          <div class="block">
-            <div class="list2">
-              <button class="item" data-prompt="Build a 24-hour arrival plan with steps, documents to keep accessible, and what to do if something goes wrong.">
-                <div class="item-title">24-hour arrival plan</div>
-                <div class="item-sub muted">Airport → SIM → transport → housing → essentials</div>
-              </button>
-
-              <button class="item" data-prompt="Give me a first-week checklist: SIM, banking, housing basics, campus ID, and who to contact at the university.">
-                <div class="item-title">First-week checklist</div>
-                <div class="item-sub muted">Practical setup + escalation contacts</div>
-              </button>
-
-              <button class="item" data-prompt="I have a question that might affect immigration status. Give me the safest next step and official escalation guidance.">
-                <div class="item-title">Immigration: safest next step</div>
-                <div class="item-sub muted">No guessing, only official guidance</div>
-              </button>
-
-              <button class="item" data-prompt="What documents should I keep accessible during travel and the first 48 hours in the U.S.?">
-                <div class="item-title">Travel documents</div>
-                <div class="item-sub muted">What to carry + why</div>
-              </button>
-
-              <button class="item" data-prompt="Create a one-page ‘survival guide’ for day 1 in the U.S. for a new student.">
-                <div class="item-title">Day-1 survival guide</div>
-                <div class="item-sub muted">One-page, print-ready</div>
-              </button>
-            </div>
-          </div>
-
-          <!-- REMOVED: ministry-ready block moved into drawer -->
-
-          <footer class="side-foot">
-            <div class="fine muted">
-              <span>© <span id="year"></span> OmanX</span>
-              <span class="fine-dot">•</span>
-              <span>Built for clarity under pressure.</span>
-            </div>
-          </footer>
-        </aside>
-
-        <!-- Right: Chat -->
-        <section class="card chat">
+      <!-- Chat-only main -->
+      <section class="layout layout-chat-only">
+        <section class="card chat chat-main">
           <div class="card-head chat-head">
             <div>
               <h3>OmanX Assistant</h3>
@@ -314,9 +208,9 @@
             </div>
           </div>
 
-          <div id="chat" class="chat-scroll" role="log" aria-live="polite"></div>
+          <div id="chat" class="chat-scroll chat-scroll-main" role="log" aria-live="polite"></div>
 
-          <div class="composer">
+          <div class="composer composer-main">
             <form id="form" class="composer-row">
               <div class="input-wrap">
                 <textarea
@@ -339,18 +233,25 @@
               Disclaimer: informational guidance only. For immigration/legal/medical matters, follow official instructions and contact the appropriate office.
             </p>
           </div>
+
+          <footer class="side-foot">
+            <div class="fine muted">
+              <span>© <span id="year"></span> OmanX</span>
+              <span class="fine-dot">•</span>
+              <span>Built for clarity under pressure.</span>
+            </div>
+          </footer>
         </section>
       </section>
     </main>
 
     <script>
-      // Drawer open/close
+      // Drawer open/close + wiring
       (function () {
         const drawer = document.getElementById("drawer");
         const overlay = document.getElementById("overlay");
         const menuBtn = document.getElementById("menuBtn");
         const closeBtn = document.getElementById("closeBtn");
-        const openDetailsBtn = document.getElementById("openDetailsBtn");
 
         function openDrawer() {
           drawer.hidden = false;
@@ -358,7 +259,6 @@
           drawer.dataset.open = "true";
           overlay.dataset.open = "true";
           menuBtn?.setAttribute("aria-expanded", "true");
-          // Focus close for accessibility
           closeBtn?.focus();
           document.body.classList.add("no-scroll");
         }
@@ -368,7 +268,6 @@
           overlay.dataset.open = "false";
           menuBtn?.setAttribute("aria-expanded", "false");
           document.body.classList.remove("no-scroll");
-          // allow animation then hide
           window.setTimeout(() => {
             drawer.hidden = true;
             overlay.hidden = true;
@@ -377,7 +276,6 @@
         }
 
         menuBtn?.addEventListener("click", openDrawer);
-        openDetailsBtn?.addEventListener("click", openDrawer);
         closeBtn?.addEventListener("click", closeDrawer);
         overlay?.addEventListener("click", closeDrawer);
 
@@ -392,52 +290,61 @@
         if (yearA) yearA.textContent = String(y);
         if (yearB) yearB.textContent = String(y);
 
-        // Optional: keep policy toggles in sync (if your app.js already handles this, remove this section)
-        const pairs = [
-          ["modeOfficial", "modeOfficial_2"],
-          ["modeCommunity", "modeCommunity_2"],
-        ];
-
+        // Sync policy toggles (drawer only)
         function setMode(mode) {
           const isOfficial = mode === "official";
-          const aO = document.getElementById("modeOfficial");
-          const aC = document.getElementById("modeCommunity");
           const bO = document.getElementById("modeOfficial_2");
           const bC = document.getElementById("modeCommunity_2");
 
-          [aO, bO].forEach((el) => el?.classList.toggle("on", isOfficial));
-          [aC, bC].forEach((el) => el?.classList.toggle("on", !isOfficial));
+          bO?.classList.toggle("on", isOfficial);
+          bC?.classList.toggle("on", !isOfficial);
 
-          [aO, bO].forEach((el) => el?.setAttribute("aria-selected", String(isOfficial)));
-          [aC, bC].forEach((el) => el?.setAttribute("aria-selected", String(!isOfficial)));
+          bO?.setAttribute("aria-selected", String(isOfficial));
+          bC?.setAttribute("aria-selected", String(!isOfficial));
 
           const title = isOfficial ? "Official mode" : "Community mode";
           const text = isOfficial
             ? "Responses must cite approved knowledge. If uncertain, OmanX escalates."
             : "Responses may include community tips. Use caution; verify with official offices for high-stakes topics.";
 
-          const modeTextMain = document.getElementById("modeText");
           const modeTextDrawer = document.getElementById("modeText_2");
           const modeTitleDrawer = document.getElementById("modeTitle_2");
 
-          if (modeTextMain) modeTextMain.textContent = text;
           if (modeTextDrawer) modeTextDrawer.textContent = text;
           if (modeTitleDrawer) modeTitleDrawer.textContent = title;
         }
 
-        document.getElementById("modeOfficial")?.addEventListener("click", () => setMode("official"));
-        document.getElementById("modeCommunity")?.addEventListener("click", () => setMode("community"));
         document.getElementById("modeOfficial_2")?.addEventListener("click", () => setMode("official"));
         document.getElementById("modeCommunity_2")?.addEventListener("click", () => setMode("community"));
 
-        // Duplicate export/copy/print buttons (wire to original buttons)
+        // Wire drawer buttons to main buttons (so your existing app.js keeps working)
+        const demoBtn = document.getElementById("demoBtn");
+        const clearBtn = document.getElementById("clearBtn");
         const exportBtn = document.getElementById("exportBtn");
         const copyBtn = document.getElementById("copyBtn");
         const printBtn = document.getElementById("printBtn");
 
+        document.getElementById("demoBtn_2")?.addEventListener("click", () => { demoBtn?.click(); closeDrawer(); });
+        document.getElementById("clearBtn_2")?.addEventListener("click", () => { clearBtn?.click(); closeDrawer(); });
+
         document.getElementById("exportBtn_2")?.addEventListener("click", () => exportBtn?.click());
         document.getElementById("copyBtn_2")?.addEventListener("click", () => copyBtn?.click());
-        document.getElementById("printBtn_2")?.addEventListener("click", () => printBtn?.click());
+
+        // Print: if you don't have a main print button anymore, just call window.print()
+        document.getElementById("printBtn_2")?.addEventListener("click", () => window.print());
+
+        // Playbook buttons: click inserts prompt and closes drawer
+        const input = document.getElementById("input");
+        drawer.querySelectorAll("button.item[data-prompt]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const prompt = btn.getAttribute("data-prompt") || "";
+            if (input) {
+              input.value = prompt;
+              input.focus();
+            }
+            closeDrawer();
+          });
+        });
       })();
     </script>
 
