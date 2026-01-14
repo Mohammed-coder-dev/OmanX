@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OmanX — Ministry Pilot MVP</title>
-    <meta name="description" content="Government-grade onboarding assistant for Omani scholars in the United States." />
+    <title>OmanX — Government Pilot</title>
+    <meta name="description" content="OmanX is a government-ready onboarding assistant for Omani scholars in the United States." />
     <link rel="stylesheet" href="/styles.css" />
     <link rel="icon" href="data:," />
   </head>
@@ -28,14 +28,14 @@
               <h1>OmanX</h1>
               <span class="badge">Pilot MVP</span>
             </div>
-            <p>Government-grade guidance for Omani scholars in the United States.</p>
+            <p>Government-ready onboarding guidance for Omani scholars in the United States.</p>
           </div>
         </div>
 
         <div class="top-actions">
           <span class="pill" id="statusPill" title="Service status">
             <span class="pill-dot"></span>
-            <span class="pill-text">Online</span>
+            <span class="pill-text">Operational</span>
           </span>
           <a class="ghost" href="/health" target="_blank" rel="noreferrer">Health</a>
           <button class="ghost" id="printBtn" type="button">Print</button>
@@ -46,10 +46,10 @@
       <section class="hero">
         <div class="hero-left">
           <div class="hero-title">
-            <h2>Onboarding, simplified.</h2>
+            <h2>Policy-grade onboarding, with verified sources.</h2>
             <p class="muted">
-              Structured checklists + an AI assistant constrained to approved sources.
-              No guessing. Clear escalation. Built for institutional trust.
+              OmanX supports Omani scholars with structured steps, official references, and
+              clear escalation pathways. Built for trust, auditability, and institutional readiness.
             </p>
           </div>
 
@@ -71,16 +71,15 @@
             </div>
           </div>
 
-          <div class="hero-row">
-            <button class="primary" id="demoBtn" type="button">Run demo flow</button>
-            <button class="ghost" id="exportBtn" type="button">Export last answer</button>
-            <button class="ghost" id="copyBtn" type="button">Copy last</button>
-          </div>
-
-          <div class="fine">
-            <span class="fine-label">Institution-ready</span>
-            <span class="fine-dot">•</span>
-            <span class="fine-text">Audit-friendly format • Minimal personal data • Clear disclaimers</span>
+          <div class="hero-notes">
+            <div class="note">
+              <div class="note-title">Institution-ready</div>
+              <div class="note-text">Audit-friendly format, minimal personal data, and transparent disclaimers.</div>
+            </div>
+            <div class="note">
+              <div class="note-title">Escalation-first</div>
+              <div class="note-text">High-stakes topics route to official offices instead of improvisation.</div>
+            </div>
           </div>
         </div>
 
@@ -89,9 +88,9 @@
             <div class="panel-head">
               <div>
                 <div class="panel-title">Pilot dashboard</div>
-                <div class="panel-sub muted">Demo metrics (wireframe for ministry review)</div>
+                <div class="panel-sub muted">Monitoring view for ministry review</div>
               </div>
-              <button class="ghost" id="refreshMetricsBtn" type="button">Refresh</button>
+              <button class="ghost" id="refreshMetricsBtn" type="button" disabled>Refresh</button>
             </div>
 
             <div class="metrics">
@@ -118,14 +117,14 @@
             <div class="toggle-row">
               <div>
                 <div class="panel-title">Response policy</div>
-                <div class="panel-sub muted">Choose the level of strictness.</div>
+                <div class="panel-sub muted">Official mode prioritizes approved sources.</div>
               </div>
 
               <div class="segmented" role="tablist" aria-label="Response policy mode">
-                <button class="seg on" id="modeOfficial" type="button" role="tab" aria-selected="true">
+                <button class="seg on" id="modeOfficial" type="button" role="tab" aria-selected="true" disabled>
                   Official
                 </button>
-                <button class="seg" id="modeCommunity" type="button" role="tab" aria-selected="false">
+                <button class="seg" id="modeCommunity" type="button" role="tab" aria-selected="false" disabled>
                   Community
                 </button>
               </div>
@@ -134,7 +133,7 @@
             <div class="callout">
               <div class="callout-title">Official mode</div>
               <div class="callout-text" id="modeText">
-                Responses must cite approved knowledge. If uncertain, OmanX escalates.
+                Responses must cite approved knowledge. If uncertain, OmanX escalates to official offices.
               </div>
             </div>
 
@@ -142,7 +141,7 @@
 
             <div class="panel-foot">
               <div class="muted small">
-                Disclaimer: informational guidance only. For immigration/legal/medical matters, consult official offices.
+                Informational guidance only. For immigration/legal/medical matters, consult official offices.
               </div>
             </div>
           </div>
@@ -155,7 +154,7 @@
         <aside class="card side">
           <div class="card-head">
             <h3>Onboarding playbooks</h3>
-            <p class="muted">Click to insert a structured request.</p>
+            <p class="muted">Select a structured prompt to begin.</p>
           </div>
 
           <div class="block">
@@ -212,8 +211,8 @@
         <section class="card chat">
           <div class="card-head chat-head">
             <div>
-              <h3>OmanX Assistant</h3>
-              <p class="muted">Clear steps. References. Escalation triggers.</p>
+              <h3>OmanX Policy Assistant</h3>
+              <p class="muted">Clear steps, official references, escalation triggers.</p>
             </div>
             <div class="chat-actions">
               <button class="ghost" id="clearBtn" type="button">Clear</button>
@@ -233,6 +232,7 @@
                 <div class="hint">
                   <kbd>Enter</kbd> send · <kbd>Shift</kbd>+<kbd>Enter</kbd> newline
                 </div>
+                <div class="form-alert" id="formAlert" role="status" aria-live="polite"></div>
               </div>
 
               <button id="send" class="send" type="submit">
