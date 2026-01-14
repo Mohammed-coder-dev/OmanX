@@ -16,6 +16,96 @@
       <div class="bg-vignette"></div>
     </div>
 
+    <!-- Drawer overlay + drawer -->
+    <div class="overlay" id="overlay" hidden></div>
+
+    <aside
+      class="drawer"
+      id="drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Policy and details"
+      hidden
+    >
+      <div class="drawer__head">
+        <div class="drawer__title">
+          <div class="drawer__kicker muted">OmanX</div>
+          <h2>Policy & Details</h2>
+        </div>
+        <button class="iconbtn" id="closeBtn" type="button" aria-label="Close menu">
+          ✕
+        </button>
+      </div>
+
+      <div class="drawer__content">
+        <section class="drawer__section">
+          <h3>What makes this ministry-ready</h3>
+          <ul class="bullets">
+            <li><strong>Constrained outputs</strong> — OmanX answers from approved sources only.</li>
+            <li><strong>Auditability</strong> — Responses are structured and cite references.</li>
+            <li><strong>Escalation</strong> — High-stakes topics route to officials.</li>
+            <li><strong>Low data risk</strong> — MVP requires minimal personal data.</li>
+          </ul>
+        </section>
+
+        <div class="divider"></div>
+
+        <section class="drawer__section">
+          <div class="toggle-row">
+            <div>
+              <div class="panel-title">Response policy</div>
+              <div class="panel-sub muted">Choose the level of strictness.</div>
+            </div>
+
+            <div class="segmented" role="tablist" aria-label="Response policy mode">
+              <button class="seg on" id="modeOfficial_2" type="button" role="tab" aria-selected="true">
+                Official
+              </button>
+              <button class="seg" id="modeCommunity_2" type="button" role="tab" aria-selected="false">
+                Community
+              </button>
+            </div>
+          </div>
+
+          <div class="callout">
+            <div class="callout-title" id="modeTitle_2">Official mode</div>
+            <div class="callout-text" id="modeText_2">
+              Responses must cite approved knowledge. If uncertain, OmanX escalates.
+            </div>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <section class="drawer__section">
+          <h3>Exports</h3>
+          <div class="btnrow">
+            <button class="ghost" id="exportBtn_2" type="button">Export last answer</button>
+            <button class="ghost" id="copyBtn_2" type="button">Copy last</button>
+            <button class="ghost" id="printBtn_2" type="button">Print</button>
+            <a class="ghost" href="/health" target="_blank" rel="noreferrer">Health</a>
+          </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <section class="drawer__section">
+          <h3>Disclaimer</h3>
+          <p class="muted small">
+            Disclaimer: informational guidance only. For immigration/legal/medical matters, consult official offices.
+          </p>
+        </section>
+
+        <footer class="drawer__foot">
+          <div class="fine muted">
+            <span>© <span id="year_2"></span> OmanX</span>
+            <span class="fine-dot">•</span>
+            <span>Built for clarity under pressure.</span>
+          </div>
+        </footer>
+      </div>
+    </aside>
+
     <main class="shell">
       <!-- Top -->
       <header class="topbar">
@@ -33,12 +123,23 @@
         </div>
 
         <div class="top-actions">
+          <!-- NEW: Hamburger / Details button -->
+          <button
+            class="iconbtn"
+            id="menuBtn"
+            type="button"
+            aria-label="Open menu"
+            aria-expanded="false"
+            aria-controls="drawer"
+            title="Policy & details"
+          >
+            <span class="hamburger" aria-hidden="true"><span></span></span>
+          </button>
+
           <span class="pill" id="statusPill" title="Service status">
             <span class="pill-dot"></span>
             <span class="pill-text">Online</span>
           </span>
-          <a class="ghost" href="/health" target="_blank" rel="noreferrer">Health</a>
-          <button class="ghost" id="printBtn" type="button">Print</button>
         </div>
       </header>
 
@@ -115,6 +216,7 @@
 
             <div class="divider"></div>
 
+            <!-- Keep this compact on the main page, details live in drawer -->
             <div class="toggle-row">
               <div>
                 <div class="panel-title">Response policy</div>
@@ -143,6 +245,8 @@
             <div class="panel-foot">
               <div class="muted small">
                 Disclaimer: informational guidance only. For immigration/legal/medical matters, consult official offices.
+                <span class="fine-dot">•</span>
+                <button class="linklike" id="openDetailsBtn" type="button">Policy & details</button>
               </div>
             </div>
           </div>
@@ -187,17 +291,7 @@
             </div>
           </div>
 
-          <div class="divider"></div>
-
-          <div class="block">
-            <h4 class="subhead">What makes this ministry-ready</h4>
-            <ul class="bullets">
-              <li><strong>Constrained outputs</strong> — OmanX answers from approved sources only.</li>
-              <li><strong>Auditability</strong> — Responses are structured and cite references.</li>
-              <li><strong>Escalation</strong> — High-stakes topics route to officials.</li>
-              <li><strong>Low data risk</strong> — MVP requires minimal personal data.</li>
-            </ul>
-          </div>
+          <!-- REMOVED: ministry-ready block moved into drawer -->
 
           <footer class="side-foot">
             <div class="fine muted">
@@ -248,6 +342,104 @@
         </section>
       </section>
     </main>
+
+    <script>
+      // Drawer open/close
+      (function () {
+        const drawer = document.getElementById("drawer");
+        const overlay = document.getElementById("overlay");
+        const menuBtn = document.getElementById("menuBtn");
+        const closeBtn = document.getElementById("closeBtn");
+        const openDetailsBtn = document.getElementById("openDetailsBtn");
+
+        function openDrawer() {
+          drawer.hidden = false;
+          overlay.hidden = false;
+          drawer.dataset.open = "true";
+          overlay.dataset.open = "true";
+          menuBtn?.setAttribute("aria-expanded", "true");
+          // Focus close for accessibility
+          closeBtn?.focus();
+          document.body.classList.add("no-scroll");
+        }
+
+        function closeDrawer() {
+          drawer.dataset.open = "false";
+          overlay.dataset.open = "false";
+          menuBtn?.setAttribute("aria-expanded", "false");
+          document.body.classList.remove("no-scroll");
+          // allow animation then hide
+          window.setTimeout(() => {
+            drawer.hidden = true;
+            overlay.hidden = true;
+          }, 180);
+          menuBtn?.focus();
+        }
+
+        menuBtn?.addEventListener("click", openDrawer);
+        openDetailsBtn?.addEventListener("click", openDrawer);
+        closeBtn?.addEventListener("click", closeDrawer);
+        overlay?.addEventListener("click", closeDrawer);
+
+        window.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && !drawer.hidden) closeDrawer();
+        });
+
+        // Mirror year
+        const y = new Date().getFullYear();
+        const yearA = document.getElementById("year");
+        const yearB = document.getElementById("year_2");
+        if (yearA) yearA.textContent = String(y);
+        if (yearB) yearB.textContent = String(y);
+
+        // Optional: keep policy toggles in sync (if your app.js already handles this, remove this section)
+        const pairs = [
+          ["modeOfficial", "modeOfficial_2"],
+          ["modeCommunity", "modeCommunity_2"],
+        ];
+
+        function setMode(mode) {
+          const isOfficial = mode === "official";
+          const aO = document.getElementById("modeOfficial");
+          const aC = document.getElementById("modeCommunity");
+          const bO = document.getElementById("modeOfficial_2");
+          const bC = document.getElementById("modeCommunity_2");
+
+          [aO, bO].forEach((el) => el?.classList.toggle("on", isOfficial));
+          [aC, bC].forEach((el) => el?.classList.toggle("on", !isOfficial));
+
+          [aO, bO].forEach((el) => el?.setAttribute("aria-selected", String(isOfficial)));
+          [aC, bC].forEach((el) => el?.setAttribute("aria-selected", String(!isOfficial)));
+
+          const title = isOfficial ? "Official mode" : "Community mode";
+          const text = isOfficial
+            ? "Responses must cite approved knowledge. If uncertain, OmanX escalates."
+            : "Responses may include community tips. Use caution; verify with official offices for high-stakes topics.";
+
+          const modeTextMain = document.getElementById("modeText");
+          const modeTextDrawer = document.getElementById("modeText_2");
+          const modeTitleDrawer = document.getElementById("modeTitle_2");
+
+          if (modeTextMain) modeTextMain.textContent = text;
+          if (modeTextDrawer) modeTextDrawer.textContent = text;
+          if (modeTitleDrawer) modeTitleDrawer.textContent = title;
+        }
+
+        document.getElementById("modeOfficial")?.addEventListener("click", () => setMode("official"));
+        document.getElementById("modeCommunity")?.addEventListener("click", () => setMode("community"));
+        document.getElementById("modeOfficial_2")?.addEventListener("click", () => setMode("official"));
+        document.getElementById("modeCommunity_2")?.addEventListener("click", () => setMode("community"));
+
+        // Duplicate export/copy/print buttons (wire to original buttons)
+        const exportBtn = document.getElementById("exportBtn");
+        const copyBtn = document.getElementById("copyBtn");
+        const printBtn = document.getElementById("printBtn");
+
+        document.getElementById("exportBtn_2")?.addEventListener("click", () => exportBtn?.click());
+        document.getElementById("copyBtn_2")?.addEventListener("click", () => copyBtn?.click());
+        document.getElementById("printBtn_2")?.addEventListener("click", () => printBtn?.click());
+      })();
+    </script>
 
     <script src="/app.js"></script>
   </body>

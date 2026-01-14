@@ -35,6 +35,9 @@ body{
   overflow-x:hidden;
 }
 
+/* prevent body scroll when drawer is open */
+.no-scroll{ overflow:hidden; }
+
 .bg{ position:fixed; inset:0; pointer-events:none; }
 .bg-grid{
   position:absolute; inset:-12%;
@@ -153,6 +156,136 @@ body{
   transform: translateY(-1px);
   border-color: rgba(120,160,255,0.56);
   background: rgba(120,160,255,0.18);
+}
+
+/* NEW: icon button + hamburger */
+.iconbtn{
+  width:44px;
+  height:44px;
+  border-radius: 14px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow2);
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+  color: var(--text);
+}
+.iconbtn:hover{
+  transform: translateY(-1px);
+  border-color: var(--border2);
+  background: rgba(255,255,255,0.05);
+}
+
+.hamburger{
+  width:18px;
+  height:12px;
+  position:relative;
+  display:block;
+}
+.hamburger::before,
+.hamburger::after,
+.hamburger span{
+  content:"";
+  position:absolute;
+  left:0;
+  width:18px;
+  height:2px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 999px;
+}
+.hamburger::before{ top:0; }
+.hamburger::after{ bottom:0; }
+.hamburger span{ top:50%; transform: translateY(-50%); }
+
+/* NEW: overlay + drawer */
+.overlay{
+  position:fixed;
+  inset:0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(2px);
+  z-index: 40;
+}
+
+.drawer{
+  position:fixed;
+  top:0;
+  right:0;
+  bottom:0;
+  width: min(420px, 92vw);
+  background: rgba(16, 18, 24, 0.90);
+  border-left: 1px solid rgba(255,255,255,0.10);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(16px);
+  z-index: 50;
+  transform: translateX(100%);
+  transition: transform 180ms ease;
+  display:flex;
+  flex-direction:column;
+  overflow: hidden;
+}
+.drawer[data-open="true"]{ transform: translateX(0); }
+
+.drawer__head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.drawer__kicker{
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted2);
+}
+.drawer__title h2{
+  margin: 6px 0 0;
+  font-size: 16px;
+  letter-spacing: 0.2px;
+}
+
+.drawer__content{
+  padding: 16px;
+  overflow:auto;
+  display:flex;
+  flex-direction:column;
+  gap: 14px;
+}
+.drawer__section h3{
+  margin: 0 0 10px;
+  font-size: 13px;
+  letter-spacing: 0.2px;
+  color: rgba(255,255,255,0.88);
+}
+
+.drawer__foot{
+  margin-top: 6px;
+}
+
+/* NEW: button row inside drawer */
+.btnrow{
+  display:flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* NEW: link-like button */
+.linklike{
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  color: rgba(180, 205, 255, 0.92);
+  cursor: pointer;
+  text-decoration: none;
+  font: inherit;
+}
+.linklike:hover{
+  text-decoration: underline;
 }
 
 /* Hero */
