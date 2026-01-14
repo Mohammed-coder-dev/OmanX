@@ -8,12 +8,14 @@
 // - Strong error handling + graceful shutdown
 //
 // IMPORTANT:
-// - This version expects prompts.js to export:
+// - prompts.js must export:
 //   - SYSTEM_POLICY_SCHOLAR
 //   - SYSTEM_POLICY_LOCAL
 //   - buildKnowledgeText
 //
-// If you want to keep only one policy, set SYSTEM_POLICY_LOCAL = SYSTEM_POLICY_SCHOLAR in prompts.js.
+// Deployment note:
+// - If frontend and backend are on different domains, set:
+//   ALLOWED_ORIGINS=https://your-frontend-domain,https://www.your-frontend-domain
 
 import express from "express";
 import path from "path";
@@ -104,9 +106,8 @@ const client = new OpenAI({
 // Intent routing (simple MVP)
 // -----------------------------
 function isLocalLifeQuery(text = "") {
-  const t = text.toLowerCase();
+  const t = String(text).toLowerCase();
 
-  // Local-life intent keywords (restaurants, nearby places, services)
   const localHits = [
     "restaurant",
     "restaurants",
@@ -136,7 +137,6 @@ function isLocalLifeQuery(text = "") {
     "recommendation",
   ];
 
-  // Scholar/onboarding keywords that must stay governed
   const governedHits = [
     "i-20",
     "ds-2019",
@@ -168,7 +168,7 @@ function isLocalLifeQuery(text = "") {
 }
 
 // -----------------------------
-// Knowledge base manager (hot reload)
+// Knowledge base manager (hot reload + safe fallback)
 // -----------------------------
 class KnowledgeManager {
   constructor(filePath) {
@@ -271,14 +271,12 @@ const cache = new ResponseCache({ ttlMs: CACHE_TTL_MS, maxEntries: CACHE_MAX_ENT
 // -----------------------------
 const app = express();
 app.disable("x-powered-by");
-
-// Trust proxy helps rate limiting / IP when behind reverse proxy (common)
 app.set("trust proxy", 1);
 
 // Security headers
 app.use(
   helmet({
-    contentSecurityPolicy: false, // CSP can break local inline scripts; keep off for MVP
+    contentSecurityPolicy: false,
     crossOriginEmbedderPolicy: false,
   })
 );
@@ -287,10 +285,14 @@ app.use(
 app.use(
   cors({
     origin: (origin, cb) => {
-      if (!origin) return cb(null, true); // curl / same-origin / local
-      if (!ALLOWED_ORIGINS.length) return cb(null, true); // default open for MVP
+      // allow same-origin / curl / server-to-server requests
+      if (!origin) return cb(null, true);
+
+      // if not configured, default open for MVP
+      if (!ALLOWED_ORIGINS.length) return cb(null, true);
+
       if (ALLOWED_ORIGINS.includes(origin)) return cb(null, true);
-      return cb(new Error("CORS blocked"), false);
+      return cb(new Error(`CORS blocked: ${origin}`), false);
     },
     credentials: true,
     methods: ["GET", "POST"],
@@ -319,7 +321,7 @@ app.use(
     stream: {
       write: (msg) => logger.info(msg.trim()),
     },
-    skip: () => IS_PROD === false, // reduce noise locally; flip if you want
+    skip: () => IS_PROD === false,
   })
 );
 
@@ -336,26 +338,27 @@ const apiLimiter = rateLimit({
   },
 });
 
-// Static: root directory assets
-// This serves /index.html, /styles.css, /app.js, etc.
+// Static: root directory assets (index.html, styles.css, app.js at root)
 app.use(
   express.static(__dirname, {
     etag: true,
     lastModified: true,
     maxAge: IS_PROD ? "1h" : 0,
     setHeaders: (res, filePath) => {
-      // prevent caching HTML too aggressively
-      if (filePath.endsWith(".html")) {
-        res.setHeader("Cache-Control", "no-store");
-      }
+      if (filePath.endsWith(".html")) res.setHeader("Cache-Control", "no-store");
     },
   })
 );
 
 // -----------------------------
-// Startup load knowledge
+// Startup load knowledge (do NOT crash prod if knowledge is missing)
 // -----------------------------
-await knowledge.load(true);
+try {
+  await knowledge.load(true);
+} catch (e) {
+  logger.error("Failed to load knowledge.json at startup", { error: e?.message || String(e) });
+  // Keep server alive so /health can show the issue.
+}
 
 // Periodic hot reload check
 setInterval(async () => {
@@ -371,25 +374,35 @@ setInterval(async () => {
 // -----------------------------
 app.get("/health", async (req, res) => {
   try {
-    const st = await fs.stat(KNOWLEDGE_PATH);
+    let st = null;
+    try {
+      st = await fs.stat(KNOWLEDGE_PATH);
+    } catch {
+      st = null;
+    }
+
     res.json({
       ok: true,
       env: NODE_ENV,
       uptime_s: Math.round(process.uptime()),
       requestId: req.requestId,
+      openai: {
+        configured: !!OPENAI_API_KEY,
+        model: OPENAI_MODEL,
+      },
       knowledge: {
         loaded: !!knowledge.getJson(),
-        mtimeMs: st.mtimeMs,
+        mtimeMs: st?.mtimeMs ?? null,
       },
       cache: cache.stats(),
     });
   } catch (e) {
-    res.status(500).json({ ok: false, error: e?.message || "health failed" });
+    res.status(500).json({ ok: false, error: e?.message || "health failed", requestId: req.requestId });
   }
 });
 
 app.get("/ready", (req, res) => {
-  const ready = !!knowledge.getJson();
+  const ready = !!knowledge.getJson() && !!OPENAI_API_KEY;
   res.status(ready ? 200 : 503).json({ ready, requestId: req.requestId });
 });
 
@@ -405,7 +418,10 @@ app.get("/metrics", (req, res) => {
   });
 });
 
-// Admin: clear cache / reload knowledge (guarded in prod)
+// -----------------------------
+// Admin endpoints
+// - In production: requires ADMIN_KEY via x-admin-key header OR {adminKey} body
+// -----------------------------
 function requireAdmin(req, res, next) {
   if (!IS_PROD) return next();
   const key = (req.headers["x-admin-key"] || req.body?.adminKey || "").toString();
@@ -430,10 +446,15 @@ app.post("/admin/knowledge/reload", requireAdmin, async (req, res) => {
 });
 
 // -----------------------------
-// Chat endpoint (supports optional streaming via SSE)
+// Chat endpoint
 // Body: { message: string, stream?: boolean, mode?: "official"|"community" }
-// - "mode" is user-facing. "lane" is internal routing (scholar vs local).
-// -----------------------------
+// - "mode" is user-facing; "lane" is internal routing (scholar vs local).
+//
+// Improvements vs previous:
+// - Returns more specific errors (auth/rate-limit/timeouts)
+// - Includes requestId + lane in responses to help frontend debug
+// - Avoids hard-failing when knowledge isn't loaded (still answers in scholar lane, but warns/esc)
+ // -----------------------------
 app.post("/chat", apiLimiter, async (req, res) => {
   const requestId = req.requestId;
 
@@ -447,7 +468,6 @@ app.post("/chat", apiLimiter, async (req, res) => {
       return res.status(400).json({ error: "Message too long (max 10,000 chars).", requestId });
     }
 
-    // Route: local-life queries should NOT be forced into knowledge/citations
     const lane = isLocalLifeQuery(message) ? "local" : "scholar";
 
     // Cache only for non-streaming
@@ -462,15 +482,19 @@ app.post("/chat", apiLimiter, async (req, res) => {
 
     logger.info("Chat request", { requestId, mode, lane, stream, length: message.length });
 
-    // System prompt selection
-    // Scholar lane gets policy + knowledge injection.
-    // Local lane gets a different policy and NO knowledge injection (to avoid irrelevant citations).
-    const systemText =
-      lane === "local"
-        ? SYSTEM_POLICY_LOCAL.trim()
-        : (SYSTEM_POLICY_SCHOLAR.trim() +
-            `\n\nMODE: ${mode}\n` +
-            `\nKNOWLEDGE (approved sources):\n${knowledge.getText()}\n`);
+    // Scholar lane policy + knowledge injection (if loaded)
+    // Local lane policy without knowledge injection
+    let systemText = "";
+
+    if (lane === "local") {
+      systemText = SYSTEM_POLICY_LOCAL.trim();
+    } else {
+      const kb = knowledge.getText();
+      systemText =
+        SYSTEM_POLICY_SCHOLAR.trim() +
+        `\n\nMODE: ${mode}\n` +
+        (kb ? `\nKNOWLEDGE (approved sources):\n${kb}\n` : `\nKNOWLEDGE: (not loaded)\n`);
+    }
 
     // ---- Streaming (SSE) ----
     if (stream) {
@@ -484,14 +508,8 @@ app.post("/chat", apiLimiter, async (req, res) => {
       const streamResp = await client.responses.stream({
         model: OPENAI_MODEL,
         input: [
-          {
-            role: "system",
-            content: [{ type: "input_text", text: systemText }],
-          },
-          {
-            role: "user",
-            content: [{ type: "input_text", text: message }],
-          },
+          { role: "system", content: [{ type: "input_text", text: systemText }] },
+          { role: "user", content: [{ type: "input_text", text: message }] },
         ],
       });
 
@@ -499,20 +517,21 @@ app.post("/chat", apiLimiter, async (req, res) => {
         const delta = event.delta || "";
         if (!delta) return;
         fullText += delta;
-        res.write(`data: ${JSON.stringify({ delta })}\n\n`);
+        res.write(`data: ${JSON.stringify({ delta, requestId, lane })}\n\n`);
       });
 
       streamResp.on("response.completed", () => {
-        res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
+        res.write(`data: ${JSON.stringify({ done: true, requestId, lane })}\n\n`);
         res.end();
         cache.set(cacheKey, fullText);
         logger.info("Stream complete", { requestId, lane, outLen: fullText.length });
       });
 
       streamResp.on("error", (e) => {
-        logger.error("Stream error", { requestId, lane, error: e?.message || String(e) });
+        const msg = e?.message || String(e);
+        logger.error("Stream error", { requestId, lane, error: msg });
         try {
-          res.write(`data: ${JSON.stringify({ error: "Stream error.", done: true })}\n\n`);
+          res.write(`data: ${JSON.stringify({ error: "Stream error.", requestId, lane, done: true })}\n\n`);
           res.end();
         } catch {}
       });
@@ -530,14 +549,8 @@ app.post("/chat", apiLimiter, async (req, res) => {
     const response = await client.responses.create({
       model: OPENAI_MODEL,
       input: [
-        {
-          role: "system",
-          content: [{ type: "input_text", text: systemText }],
-        },
-        {
-          role: "user",
-          content: [{ type: "input_text", text: message }],
-        },
+        { role: "system", content: [{ type: "input_text", text: systemText }] },
+        { role: "user", content: [{ type: "input_text", text: message }] },
       ],
     });
 
@@ -564,6 +577,10 @@ app.post("/chat", apiLimiter, async (req, res) => {
     if (status === 429) {
       return res.status(429).json({ error: "OpenAI rate limit exceeded. Try again later.", requestId });
     }
+    if (status === 400) {
+      return res.status(500).json({ error: "OpenAI request was rejected (400). Check model/input formatting.", requestId });
+    }
+
     return res.status(500).json({ error: "Server error.", requestId });
   }
 });
