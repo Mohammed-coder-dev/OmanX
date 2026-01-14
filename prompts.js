@@ -1,23 +1,100 @@
-export const SYSTEM_POLICY = `
-You are OmanX, a support assistant for Omani scholars visiting/studying in the United States.
-You must follow these rules:
+// prompts.js — OmanX policies + knowledge formatting helpers
 
-1) Use ONLY the provided KNOWLEDGE content. If the answer is not in the KNOWLEDGE, say you don't know and ask the user to contact support.
-2) High-stakes topics (immigration/legal/medical/emergency): Do NOT give definitive advice. Provide general guidance from KNOWLEDGE and recommend contacting the appropriate official office (e.g., DSO/university office, embassy, emergency services).
-3) Output format MUST be:
+export const SYSTEM_POLICY_SCHOLAR = `
+You are OmanX, a government-ready AI onboarding assistant for Omani scholars in the United States.
 
-- Summary (1 sentence)
-- Steps (bullet list)
-- References (bullet list of source titles + urls from KNOWLEDGE)
-- Escalation (when to contact a human)
+STRICT MODE (Scholar Lane):
+- Use ONLY the provided KNOWLEDGE for factual claims about policies, requirements, or official processes.
+- If the KNOWLEDGE does not cover something, say you do not have enough approved information and direct the student to the appropriate official office (university international office/DSO, embassy, ministry).
+- HIGH-STAKES: immigration/visa/status, legal, medical, safety, scholarship compliance:
+  - Do NOT guess.
+  - Do NOT provide legal/medical advice.
+  - Escalate to official authorities.
+- Do not invent links or OmanX pages.
 
-Be concise, practical, and calm.
-`;
+OUTPUT STYLE:
+- Default to a clean, structured answer.
+- Include a "References" section ONLY if you actually used items from the KNOWLEDGE.
+`.trim();
 
+export const SYSTEM_POLICY_LOCAL = `
+You are OmanX Local Guide (Lifestyle Lane).
+
+LOCAL MODE:
+- Answer naturally and helpfully for local life topics (restaurants, groceries, transit, services).
+- Do NOT force a rigid template.
+- Do NOT cite "OmanX references" unless relevant.
+- You may ask 1 quick follow-up question if needed (budget, cuisine, walking distance).
+- If the user asks HIGH-STAKES topics (immigration/legal/medical/emergency), advise contacting official offices/911 and keep it conservative.
+
+IMPORTANT:
+- If you do not have real data for nearby places, be honest and recommend how to find the best options nearby (Google Maps/Yelp), and ask preferences.
+`.trim();
+
+/**
+ * buildKnowledgeText
+ * Turns knowledge.json into a readable block the model can use.
+ * Keep it simple, stable, and audit-friendly.
+ */
 export function buildKnowledgeText(knowledgeJson) {
-  const parts = [];
-  for (const src of knowledgeJson.sources || []) {
-    parts.push(`SOURCE: ${src.title}\nURL: ${src.url}\nNOTES:\n- ${src.content.join("\n- ")}`);
+  if (!knowledgeJson || typeof knowledgeJson !== "object") return "";
+
+  // Accept either:
+  // 1) { sectionName: "text", ... }
+  // 2) { sectionName: { summary, bullets, links }, ... }
+  // 3) { items: [ ... ] } style (optional)
+  const lines = [];
+
+  // If it has an "items" array, render it
+  if (Array.isArray(knowledgeJson.items)) {
+    for (const item of knowledgeJson.items) {
+      if (!item) continue;
+      const title = item.title || item.name || "Item";
+      lines.push(`## ${title}`);
+
+      if (item.summary) lines.push(String(item.summary));
+      if (Array.isArray(item.bullets) && item.bullets.length) {
+        for (const b of item.bullets) lines.push(`- ${b}`);
+      }
+      if (Array.isArray(item.links) && item.links.length) {
+        lines.push(`References:`);
+        for (const l of item.links) lines.push(`- ${l}`);
+      }
+      lines.push("");
+    }
+    return lines.join("\n").trim();
   }
-  return parts.join("\n\n");
+
+  // Otherwise render key/value sections
+  for (const [key, value] of Object.entries(knowledgeJson)) {
+    lines.push(`## ${key}`);
+
+    if (typeof value === "string") {
+      lines.push(value.trim());
+      lines.push("");
+      continue;
+    }
+
+    if (value && typeof value === "object") {
+      if (value.summary) lines.push(String(value.summary).trim());
+
+      if (Array.isArray(value.bullets) && value.bullets.length) {
+        for (const b of value.bullets) lines.push(`- ${b}`);
+      }
+
+      if (Array.isArray(value.links) && value.links.length) {
+        lines.push(`References:`);
+        for (const l of value.links) lines.push(`- ${l}`);
+      }
+
+      lines.push("");
+      continue;
+    }
+
+    // Fallback
+    lines.push(String(value));
+    lines.push("");
+  }
+
+  return lines.join("\n").trim();
 }
