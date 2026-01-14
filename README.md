@@ -1,21 +1,23 @@
 # OmanX.org
 
-**OmanX** is a focused digital platform showcasing Oman through curated travel intelligence, cultural context, and modern storytelling.
+**OmanX** is a government-ready AI onboarding platform built to guide Omani scholars through studying and living in the United States with clarity, safety, and official alignment.
 
 ## What it is
-A clean, high-signal guide to Oman—designed for clarity, credibility, and global reach.
+A structured digital assistant that combines approved knowledge, step-by-step checklists, and constrained AI guidance to support students from pre-departure through their first semester in the U.S.
 
 ## Focus
-- Destinations & landmarks  
-- Culture, history, and context  
-- Practical travel insights  
+- Pre-departure and arrival checklists  
+- First-week and first-semester onboarding  
+- U.S. systems (banking, housing, connectivity, campus setup)  
+- High-stakes escalation (immigration, health, compliance)  
+- Clear references to official and institutional sources  
 
 ## Philosophy
-Minimal noise. Maximum signal.  
-Built for explorers, researchers, and builders who value depth over hype.
+No guessing. No noise.  
+Guidance is constrained to approved sources, designed for auditability, and built to escalate—not improvise—when stakes are high.
 
 ## Status
-Active development.
+Pilot MVP in active development.
 
 ---
-OmanX.org • A modern lens on Oman
+OmanX.org • Structured guidance for Omani scholars abroad
