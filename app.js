@@ -11,6 +11,7 @@ const sendBtn = document.getElementById("send");
 const clearBtn = document.getElementById("clearBtn");
 const statusPill = document.getElementById("statusPill");
 const statusBanner = document.getElementById("statusBanner");
+const statusBannerText = statusBanner?.querySelector(".status-banner-text");
 const yearEl = document.getElementById("year");
 
 // Optional mode toggles (if present in your HTML)
@@ -18,6 +19,10 @@ const modeOfficialBtn = document.getElementById("modeOfficial");
 const modeCommunityBtn = document.getElementById("modeCommunity");
 
 const DEMO_ERROR = "Sorry, I couldn't reach the OmanX service. Please try again.";
+const DEFAULT_OFFLINE_MESSAGE =
+  "Service unavailable. We will not guess—please contact the relevant office.";
+const API_BASE_ERROR_MESSAGE =
+  "Service unavailable. API endpoint not found. Set the API base or contact the relevant office.";
 
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
@@ -30,6 +35,11 @@ const setStatus = (state, text) => {
   if (statusBanner) {
     statusBanner.hidden = state !== "offline";
   }
+};
+
+const setStatusBanner = (text) => {
+  if (!statusBannerText) return;
+  statusBannerText.textContent = text;
 };
 
 const scrollToBottom = () => {
@@ -123,10 +133,14 @@ modeCommunityBtn?.addEventListener("click", () => setMode("community"));
 async function checkHealth() {
   try {
     const r = await fetch(apiUrl("/health"), { method: "GET" });
-    if (!r.ok) throw new Error(`health ${r.status}`);
+    if (!r.ok) {
+      setStatusBanner(r.status === 404 ? API_BASE_ERROR_MESSAGE : DEFAULT_OFFLINE_MESSAGE);
+      throw new Error(`health ${r.status}`);
+    }
     setStatus("online", "Online");
     return true;
   } catch {
+    setStatusBanner(DEFAULT_OFFLINE_MESSAGE);
     setStatus("offline", "Offline");
     return false;
   }
@@ -155,6 +169,11 @@ const sendMessage = async (message) => {
     }
 
     if (!response.ok) {
+      if (response.status === 404) {
+        setStatusBanner(API_BASE_ERROR_MESSAGE);
+      } else {
+        setStatusBanner(DEFAULT_OFFLINE_MESSAGE);
+      }
       const errMsg = payload?.error
         ? `${payload.error} (HTTP ${response.status})`
         : `Request failed: HTTP ${response.status}`;
@@ -170,6 +189,7 @@ const sendMessage = async (message) => {
       : DEMO_ERROR;
 
     addMessage("bot", msg);
+    setStatusBanner(DEFAULT_OFFLINE_MESSAGE);
     setStatus("offline", "Offline");
   } finally {
     setLoading(false);
