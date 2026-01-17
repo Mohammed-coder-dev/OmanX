@@ -1,17 +1,16 @@
 // app.js — OmanX MVP (frontend)
-// Key upgrades:
-// - Supports separate backend host via ?api= or window.OMANX_API_BASE or <meta name="omanx-api-base">
-// - Adds health check on load to set Online/Offline accurately
-// - Sends mode (official/community) if toggle exists
-// - Better error surfacing (shows server error message if provided)
+// Goals:
+// - Deterministic assistant UI with structured responses
+// - Checklist flow completion tracking
+// - Health check + graceful offline banner
 
 const chatEl = document.getElementById("chat");
 const formEl = document.getElementById("form");
 const inputEl = document.getElementById("input");
 const sendBtn = document.getElementById("send");
 const clearBtn = document.getElementById("clearBtn");
-const printBtn = document.getElementById("printBtn");
 const statusPill = document.getElementById("statusPill");
+const statusBanner = document.getElementById("statusBanner");
 const yearEl = document.getElementById("year");
 
 // Optional mode toggles (if present in your HTML)
@@ -27,6 +26,10 @@ const setStatus = (state, text) => {
   const el = statusPill.querySelector(".pill-text");
   if (el) el.textContent = text;
   statusPill.dataset.state = state;
+
+  if (statusBanner) {
+    statusBanner.hidden = state !== "offline";
+  }
 };
 
 const scrollToBottom = () => {
@@ -40,7 +43,7 @@ const createMessage = (role, text) => {
 
   const avatar = document.createElement("div");
   avatar.className = "avatar";
-  avatar.textContent = role === "me" ? "You" : "OX";
+  avatar.textContent = role === "me" ? "You" : "OmanX";
 
   const bubble = document.createElement("div");
   bubble.className = "bubble";
@@ -67,11 +70,6 @@ const setLoading = (isLoading) => {
 
 // -----------------------------
 // API base resolution
-// Priority:
-// 1) URL param ?api=https://your-backend
-// 2) window.OMANX_API_BASE
-// 3) <meta name="omanx-api-base" content="...">
-// 4) same-origin ""
 // -----------------------------
 function getApiBase() {
   try {
@@ -146,11 +144,9 @@ const sendMessage = async (message) => {
     const response = await fetch(apiUrl("/chat"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      // Send mode so server can route/scope responses
       body: JSON.stringify({ message, mode }),
     });
 
-    // Try to parse JSON error payloads too
     let payload = null;
     try {
       payload = await response.json();
@@ -169,7 +165,6 @@ const sendMessage = async (message) => {
     setStatus("online", "Online");
   } catch (error) {
     console.error(error);
-    // Show more useful errors in prod debugging (but keep it clean)
     const msg = error?.message?.includes("HTTP")
       ? `Sorry — the service returned an error. ${error.message}`
       : DEMO_ERROR;
@@ -208,11 +203,7 @@ if (clearBtn && chatEl) {
   });
 }
 
-if (printBtn) {
-  printBtn.addEventListener("click", () => window.print());
-}
-
-const promptButtons = document.querySelectorAll(".item[data-prompt]");
+const promptButtons = document.querySelectorAll(".flow-action[data-prompt]");
 promptButtons.forEach((button) => {
   button.addEventListener("click", () => {
     if (!inputEl) return;
@@ -222,12 +213,44 @@ promptButtons.forEach((button) => {
 });
 
 // -----------------------------
+// Checklist tracking
+// -----------------------------
+const flows = document.querySelectorAll("[data-flow]");
+flows.forEach((flow) => {
+  const list = flow.querySelector("[data-flow-list]");
+  const statusEl = flow.querySelector("[data-flow-status]");
+  const stateEl = flow.querySelector("[data-flow-state]");
+  if (!list || !statusEl || !stateEl) return;
+
+  const inputs = Array.from(list.querySelectorAll("input[type='checkbox']"));
+
+  const updateStatus = () => {
+    const total = inputs.length;
+    const done = inputs.filter((i) => i.checked).length;
+    statusEl.textContent = `${done}/${total} complete`;
+
+    if (done === 0) {
+      stateEl.textContent = "Not started";
+    } else if (done === total) {
+      stateEl.textContent = "Complete";
+    } else {
+      stateEl.textContent = "In progress";
+    }
+  };
+
+  inputs.forEach((input) => {
+    input.addEventListener("change", updateStatus);
+  });
+
+  updateStatus();
+});
+
+// -----------------------------
 // Boot
 // -----------------------------
 setMode("official");
 checkHealth();
 
-// Helpful debug line (safe)
 if (API_BASE) {
   console.log("[OmanX] Using API base:", API_BASE);
 }

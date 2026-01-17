@@ -4,137 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OmanX</title>
-    <meta name="description" content="Government-grade onboarding assistant for Omani scholars in the United States." />
+    <meta
+      name="description"
+      content="Government-grade onboarding and compliance guidance for Omani scholars in the United States."
+    />
     <link rel="stylesheet" href="/styles.css" />
     <link rel="icon" href="data:," />
   </head>
 
   <body>
-    <div class="bg">
-      <div class="bg-grid"></div>
-      <div class="bg-glow"></div>
-      <div class="bg-vignette"></div>
-    </div>
-
-    <!-- Drawer overlay + drawer -->
-    <div class="overlay" id="overlay" hidden></div>
-
-    <aside
-      class="drawer"
-      id="drawer"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Policy and details"
-      hidden
-    >
-      <div class="drawer__head">
-        <div class="drawer__title">
-          <div class="drawer__kicker muted">OmanX</div>
-          <h2>Policy & Details</h2>
-        </div>
-        <button class="iconbtn" id="closeBtn" type="button" aria-label="Close menu">
-          ✕
-        </button>
-      </div>
-
-      <div class="drawer__content">
-        <section class="drawer__section">
-          <h3>What makes this ministry-ready</h3>
-          <ul class="bullets">
-            <li><strong>Constrained outputs</strong> — OmanX answers from approved sources only.</li>
-            <li><strong>Auditability</strong> — Responses are structured and cite references.</li>
-            <li><strong>Escalation</strong> — High-stakes topics route to officials.</li>
-            <li><strong>Low data risk</strong> — MVP requires minimal personal data.</li>
-          </ul>
-        </section>
-
-        <div class="divider"></div>
-
-        <section class="drawer__section">
-          <div class="toggle-row">
-            <div>
-              <div class="panel-title">Response policy</div>
-              <div class="panel-sub muted">Choose the level of strictness.</div>
-            </div>
-
-            <div class="segmented" role="tablist" aria-label="Response policy mode">
-              <button class="seg on" id="modeOfficial_2" type="button" role="tab" aria-selected="true">
-                Official
-              </button>
-              <button class="seg" id="modeCommunity_2" type="button" role="tab" aria-selected="false">
-                Community
-              </button>
-            </div>
-          </div>
-
-          <div class="callout">
-            <div class="callout-title" id="modeTitle_2">Official mode</div>
-            <div class="callout-text" id="modeText_2">
-              Responses must cite approved knowledge. If uncertain, OmanX escalates.
-            </div>
-          </div>
-        </section>
-
-        <div class="divider"></div>
-
-        <section class="drawer__section">
-          <h3>Exports</h3>
-          <div class="btnrow">
-            <button class="ghost" id="exportBtn_2" type="button">Export last answer</button>
-            <button class="ghost" id="copyBtn_2" type="button">Copy last</button>
-            <button class="ghost" id="printBtn_2" type="button">Print</button>
-            <a class="ghost" href="/health" target="_blank" rel="noreferrer">Health</a>
-          </div>
-        </section>
-
-        <div class="divider"></div>
-
-        <section class="drawer__section">
-          <h3>Disclaimer</h3>
-          <p class="muted small">
-            Disclaimer: informational guidance only. For immigration/legal/medical matters, consult official offices.
-          </p>
-        </section>
-
-        <footer class="drawer__foot">
-          <div class="fine muted">
-            <span>© <span id="year_2"></span> OmanX</span>
-            <span class="fine-dot">•</span>
-            <span>Built for clarity under pressure.</span>
-          </div>
-        </footer>
-      </div>
-    </aside>
-
     <main class="shell">
-      <!-- Top -->
       <header class="topbar">
         <div class="brand">
-          <div class="logo" aria-hidden="true">
-            <span class="logo-dot"></span>
-          </div>
+          <div class="logo" aria-hidden="true">OX</div>
           <div class="brand-text">
             <div class="brand-row">
               <h1>OmanX</h1>
-              <span class="badge">Pilot MVP</span>
+              <span class="badge">MVP</span>
             </div>
-            <p>Government-grade guidance for Omani scholars in the United States.</p>
+            <p>Government-grade onboarding and guidance for Omani scholars in the United States.</p>
           </div>
         </div>
 
         <div class="top-actions">
-          <!-- NEW: Hamburger / Details button -->
-          <button
-            class="iconbtn"
-            id="menuBtn"
-            type="button"
-            aria-label="Open menu"
-            aria-expanded="false"
-            aria-controls="drawer"
-            title="Policy & details"
-          >
-            <span class="hamburger" aria-hidden="true"><span></span></span>
-          </button>
+          <div class="mode" role="tablist" aria-label="Response policy mode">
+            <button class="mode-btn on" id="modeOfficial" type="button" role="tab" aria-selected="true">
+              Official Mode
+            </button>
+            <button class="mode-btn" id="modeCommunity" type="button" role="tab" aria-selected="false">
+              Community Mode
+            </button>
+          </div>
 
           <span class="pill" id="statusPill" title="Service status">
             <span class="pill-dot"></span>
@@ -143,303 +43,295 @@
         </div>
       </header>
 
-      <!-- Hero -->
       <section class="hero">
-        <div class="hero-left">
-          <div class="hero-title">
-            <h2>Onboarding, simplified.</h2>
-            <p class="muted">
-              Structured checklists + an AI assistant constrained to approved sources.
-              No guessing. Clear escalation. Built for institutional trust.
-            </p>
-          </div>
+        <div class="hero-copy">
+          <p class="mission">
+            OmanX provides structured, source-constrained, auditable guidance for Omani scholars abroad—reducing
+            confusion, risk, and institutional load.
+          </p>
 
-          <div class="hero-cards">
-            <div class="mini">
-              <div class="mini-k">Outcome</div>
-              <div class="mini-v">Fewer mistakes</div>
-              <div class="mini-s">Visa/housing/banking setup with step-by-step guidance.</div>
+          <div class="pillars">
+            <div class="pillar">
+              <h2>Clarity</h2>
+              <p>Checklist-driven steps aligned to official sources and defined escalation points.</p>
             </div>
-            <div class="mini">
-              <div class="mini-k">Control</div>
-              <div class="mini-v">Official Mode</div>
-              <div class="mini-s">Answers must cite approved knowledge and policies.</div>
+            <div class="pillar">
+              <h2>Compliance</h2>
+              <p>Guidance is constrained to approved knowledge and non-negotiable regulatory requirements.</p>
             </div>
-            <div class="mini">
-              <div class="mini-k">Safety</div>
-              <div class="mini-v">Escalation</div>
-              <div class="mini-s">High-stakes topics route to official offices.</div>
+            <div class="pillar">
+              <h2>Continuity</h2>
+              <p>Consistent onboarding across ministries, embassies, and universities—without data retention.</p>
             </div>
-          </div>
-
-          <div class="hero-row">
-            <button class="primary" id="demoBtn" type="button">Run demo flow</button>
-            <button class="ghost" id="exportBtn" type="button">Export last answer</button>
-            <button class="ghost" id="copyBtn" type="button">Copy last</button>
-          </div>
-
-          <div class="fine">
-            <span class="fine-label">Institution-ready</span>
-            <span class="fine-dot">•</span>
-            <span class="fine-text">Audit-friendly format • Minimal personal data • Clear disclaimers</span>
           </div>
         </div>
 
-        <div class="hero-right">
-          <div class="panel">
-            <div class="panel-head">
-              <div>
-                <div class="panel-title">Pilot dashboard</div>
-                <div class="panel-sub muted">Demo metrics (wireframe for ministry review)</div>
-              </div>
-              <button class="ghost" id="refreshMetricsBtn" type="button">Refresh</button>
-            </div>
-
-            <div class="metrics">
-              <div class="metric">
-                <div class="metric-k">Questions answered</div>
-                <div class="metric-v" id="mAnswered">—</div>
-              </div>
-              <div class="metric">
-                <div class="metric-k">Avg. response time</div>
-                <div class="metric-v" id="mLatency">—</div>
-              </div>
-              <div class="metric">
-                <div class="metric-k">Escalation rate</div>
-                <div class="metric-v" id="mEscalation">—</div>
-              </div>
-              <div class="metric">
-                <div class="metric-k">Top topic</div>
-                <div class="metric-v" id="mTopic">—</div>
-              </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <!-- Keep this compact on the main page, details live in drawer -->
-            <div class="toggle-row">
-              <div>
-                <div class="panel-title">Response policy</div>
-                <div class="panel-sub muted">Choose the level of strictness.</div>
-              </div>
-
-              <div class="segmented" role="tablist" aria-label="Response policy mode">
-                <button class="seg on" id="modeOfficial" type="button" role="tab" aria-selected="true">
-                  Official
-                </button>
-                <button class="seg" id="modeCommunity" type="button" role="tab" aria-selected="false">
-                  Community
-                </button>
-              </div>
-            </div>
-
-            <div class="callout">
-              <div class="callout-title">Official mode</div>
-              <div class="callout-text" id="modeText">
-                Responses must cite approved knowledge. If uncertain, OmanX escalates.
-              </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="panel-foot">
-              <div class="muted small">
-                Disclaimer: informational guidance only. For immigration/legal/medical matters, consult official offices.
-                <span class="fine-dot">•</span>
-                <button class="linklike" id="openDetailsBtn" type="button">Policy & details</button>
-              </div>
-            </div>
-          </div>
+        <div class="how">
+          <h2>How it works</h2>
+          <ol>
+            <li>Choose a flow (arrival, compliance, or academic setup).</li>
+            <li>Complete the checklist with source categories attached to every step.</li>
+            <li>Ask the assistant for constrained guidance or escalation.</li>
+          </ol>
         </div>
       </section>
 
-      <!-- Main -->
-      <section class="layout">
-        <!-- Left -->
-        <aside class="card side">
-          <div class="card-head">
-            <h3>Onboarding playbooks</h3>
-            <p class="muted">Click to insert a structured request.</p>
-          </div>
+      <section class="section">
+        <div class="section-head">
+          <h2>Onboarding flows (minimal scope)</h2>
+          <p class="muted">Each step is tagged as Official or Advisory and has an explicit completion state.</p>
+        </div>
 
-          <div class="block">
-            <div class="list2">
-              <button class="item" data-prompt="Build a 24-hour arrival plan with steps, documents to keep accessible, and what to do if something goes wrong.">
-                <div class="item-title">24-hour arrival plan</div>
-                <div class="item-sub muted">Airport → SIM → transport → housing → essentials</div>
-              </button>
+        <div class="flow-grid">
+          <article class="flow" data-flow="arrival">
+            <header>
+              <h3>Arrival (First 72 Hours)</h3>
+              <div class="flow-meta">
+                <span class="flow-status" data-flow-status>0/5 complete</span>
+                <span class="flow-state" data-flow-state>Not started</span>
+              </div>
+            </header>
+            <ul class="checklist" data-flow-list>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Keep passport, visa, and I-20/DS-2019 accessible.
+                </label>
+                <span class="tag official">Official</span>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Confirm local address and emergency contact information.
+                </label>
+                <span class="tag official">Official</span>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Activate a SIM/eSIM and confirm local phone access.
+                </label>
+                <span class="tag advisory">Advisory</span>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Schedule first check-in with university international office/DSO.
+                </label>
+                <span class="tag official">Official</span>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Record housing details and emergency procedures.
+                </label>
+                <span class="tag advisory">Advisory</span>
+              </li>
+            </ul>
+            <button class="ghost flow-action" data-prompt="Provide a 72-hour arrival checklist with official vs advisory steps and escalation triggers.">
+              Use this flow in the assistant
+            </button>
+          </article>
 
-              <button class="item" data-prompt="Give me a first-week checklist: SIM, banking, housing basics, campus ID, and who to contact at the university.">
-                <div class="item-title">First-week checklist</div>
-                <div class="item-sub muted">Practical setup + escalation contacts</div>
-              </button>
+          <article class="flow" data-flow="compliance">
+            <header>
+              <h3>Immigration & Compliance</h3>
+              <div class="flow-meta">
+                <span class="flow-status" data-flow-status>0/5 complete</span>
+                <span class="flow-state" data-flow-state>Not started</span>
+              </div>
+            </header>
+            <ul class="checklist" data-flow-list>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Verify SEVIS activation with the DSO upon arrival.
+                </label>
+                <span class="tag official">Official</span>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Record visa status and expiry dates in a secure location.
+                </label>
+                <span class="tag official">Official</span>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Confirm employment or training authorizations before accepting any work.
+                </label>
+                <span class="tag official">Official</span>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Document scholarship compliance obligations (reporting, travel, GPA).
+                </label>
+                <span class="tag official">Official</span>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Maintain a contact list for MoHE, embassy, and university offices.
+                </label>
+                <span class="tag advisory">Advisory</span>
+              </li>
+            </ul>
+            <button class="ghost flow-action" data-prompt="Summarize the compliance checklist for an Omani scholar (visa, SEVIS, scholarship obligations) with escalation guidance.">
+              Use this flow in the assistant
+            </button>
+          </article>
 
-              <button class="item" data-prompt="I have a question that might affect immigration status. Give me the safest next step and official escalation guidance.">
-                <div class="item-title">Immigration: safest next step</div>
-                <div class="item-sub muted">No guessing, only official guidance</div>
-              </button>
+          <article class="flow" data-flow="academic">
+            <header>
+              <h3>Academic & Living Setup</h3>
+              <div class="flow-meta">
+                <span class="flow-status" data-flow-status>0/5 complete</span>
+                <span class="flow-state" data-flow-state>Not started</span>
+              </div>
+            </header>
+            <ul class="checklist" data-flow-list>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Complete university onboarding (ID, email, orientation).
+                </label>
+                <span class="tag official">Official</span>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Confirm health insurance enrollment and coverage details.
+                </label>
+                <span class="tag official">Official</span>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Set up banking and verify scholarship disbursement requirements.
+                </label>
+                <span class="tag advisory">Advisory</span>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Review academic advisor contact and reporting cadence.
+                </label>
+                <span class="tag official">Official</span>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" />
+                  Document housing rules, safety procedures, and local support services.
+                </label>
+                <span class="tag advisory">Advisory</span>
+              </li>
+            </ul>
+            <button class="ghost flow-action" data-prompt="Provide an academic and living setup checklist with official vs advisory steps.">
+              Use this flow in the assistant
+            </button>
+          </article>
+        </div>
+      </section>
 
-              <button class="item" data-prompt="What documents should I keep accessible during travel and the first 48 hours in the U.S.?">
-                <div class="item-title">Travel documents</div>
-                <div class="item-sub muted">What to carry + why</div>
-              </button>
+      <section class="section">
+        <div class="section-head">
+          <h2>Constrained assistant</h2>
+          <p class="muted">Responses are structured and source-linked. If confidence is low, OmanX escalates.</p>
+        </div>
 
-              <button class="item" data-prompt="Create a one-page ‘survival guide’ for day 1 in the U.S. for a new student.">
-                <div class="item-title">Day-1 survival guide</div>
-                <div class="item-sub muted">One-page, print-ready</div>
-              </button>
+        <div class="assistant-grid">
+          <div class="assistant-spec">
+            <h3>Response format</h3>
+            <ul>
+              <li><strong>What you should do</strong> — step-by-step actions.</li>
+              <li><strong>Why this matters</strong> — policy or compliance rationale.</li>
+              <li><strong>Source / Authority</strong> — Official or Advisory source category.</li>
+              <li><strong>When to escalate</strong> — who to contact if risk is high.</li>
+            </ul>
+
+            <div class="callout">
+              <p>
+                Official Mode is MoHE-aligned and source-constrained. Community Mode is flagged as non-authoritative
+                and must be verified with official offices.
+              </p>
+            </div>
+
+            <div class="callout muted">
+              OmanX does not collect or store sensitive personal data. The MVP is stateless and minimizes logging.
             </div>
           </div>
 
-          <!-- REMOVED: ministry-ready block moved into drawer -->
-
-          <footer class="side-foot">
-            <div class="fine muted">
-              <span>© <span id="year"></span> OmanX</span>
-              <span class="fine-dot">•</span>
-              <span>Built for clarity under pressure.</span>
-            </div>
-          </footer>
-        </aside>
-
-        <!-- Right: Chat -->
-        <section class="card chat">
-          <div class="card-head chat-head">
-            <div>
-              <h3>OmanX Assistant</h3>
-              <p class="muted">Clear steps. References. Escalation triggers.</p>
-            </div>
-            <div class="chat-actions">
+          <div class="assistant-panel">
+            <div class="chat-head">
+              <div>
+                <h3>OmanX Assistant</h3>
+                <p class="muted">Clear steps. References. Escalation triggers.</p>
+              </div>
               <button class="ghost" id="clearBtn" type="button">Clear</button>
             </div>
-          </div>
 
-          <div id="chat" class="chat-scroll" role="log" aria-live="polite"></div>
+            <div id="statusBanner" class="status-banner" hidden>
+              Service unavailable. We will not guess—please contact the relevant office.
+            </div>
+            <div id="chat" class="chat-scroll" role="log" aria-live="polite"></div>
 
-          <div class="composer">
-            <form id="form" class="composer-row">
-              <div class="input-wrap">
-                <textarea
-                  id="input"
-                  rows="2"
-                  placeholder="Ask about arrival, banking, SIM, housing, campus onboarding…"
-                ></textarea>
-                <div class="hint">
-                  <kbd>Enter</kbd> send · <kbd>Shift</kbd>+<kbd>Enter</kbd> newline
-                </div>
+            <form id="form" class="composer">
+              <label class="input-label" for="input">Ask about arrival, compliance, or academic setup</label>
+              <textarea
+                id="input"
+                rows="3"
+                placeholder="Example: What should I do in the first 48 hours to remain compliant?"
+              ></textarea>
+              <div class="composer-actions">
+                <p class="hint"><kbd>Enter</kbd> send · <kbd>Shift</kbd>+<kbd>Enter</kbd> newline</p>
+                <button id="send" class="primary" type="submit">
+                  <span class="send-text">Send</span>
+                </button>
               </div>
-
-              <button id="send" class="send" type="submit">
-                <span class="send-text">Send</span>
-                <span class="send-icon" aria-hidden="true">↵</span>
-              </button>
             </form>
 
             <p class="disclaimer">
-              Disclaimer: informational guidance only. For immigration/legal/medical matters, follow official instructions and contact the appropriate office.
+              Disclaimer: informational guidance only. For immigration/legal/medical matters, follow official
+              instructions and contact the appropriate office.
             </p>
           </div>
-        </section>
+        </div>
+      </section>
+
+      <section class="section governance">
+        <div class="section-head">
+          <h2>Governance & trust layer</h2>
+          <p class="muted">Visible controls that emphasize auditability and ministry-safe operation.</p>
+        </div>
+        <div class="governance-grid">
+          <div>
+            <h3>Mode controls</h3>
+            <p>Official Mode is MoHE-approved content only. Community Mode is flagged, non-authoritative guidance.</p>
+          </div>
+          <div>
+            <h3>Data minimization</h3>
+            <p>No user accounts, no stored chat history, no collection of sensitive personal data.</p>
+          </div>
+          <div>
+            <h3>Audit-ready</h3>
+            <p>Structured responses, source categories, escalation rules, and no raw prompt storage.</p>
+          </div>
+        </div>
       </section>
     </main>
 
-    <script>
-      // Drawer open/close
-      (function () {
-        const drawer = document.getElementById("drawer");
-        const overlay = document.getElementById("overlay");
-        const menuBtn = document.getElementById("menuBtn");
-        const closeBtn = document.getElementById("closeBtn");
-        const openDetailsBtn = document.getElementById("openDetailsBtn");
-
-        function openDrawer() {
-          drawer.hidden = false;
-          overlay.hidden = false;
-          drawer.dataset.open = "true";
-          overlay.dataset.open = "true";
-          menuBtn?.setAttribute("aria-expanded", "true");
-          // Focus close for accessibility
-          closeBtn?.focus();
-          document.body.classList.add("no-scroll");
-        }
-
-        function closeDrawer() {
-          drawer.dataset.open = "false";
-          overlay.dataset.open = "false";
-          menuBtn?.setAttribute("aria-expanded", "false");
-          document.body.classList.remove("no-scroll");
-          // allow animation then hide
-          window.setTimeout(() => {
-            drawer.hidden = true;
-            overlay.hidden = true;
-          }, 180);
-          menuBtn?.focus();
-        }
-
-        menuBtn?.addEventListener("click", openDrawer);
-        openDetailsBtn?.addEventListener("click", openDrawer);
-        closeBtn?.addEventListener("click", closeDrawer);
-        overlay?.addEventListener("click", closeDrawer);
-
-        window.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && !drawer.hidden) closeDrawer();
-        });
-
-        // Mirror year
-        const y = new Date().getFullYear();
-        const yearA = document.getElementById("year");
-        const yearB = document.getElementById("year_2");
-        if (yearA) yearA.textContent = String(y);
-        if (yearB) yearB.textContent = String(y);
-
-        // Optional: keep policy toggles in sync (if your app.js already handles this, remove this section)
-        const pairs = [
-          ["modeOfficial", "modeOfficial_2"],
-          ["modeCommunity", "modeCommunity_2"],
-        ];
-
-        function setMode(mode) {
-          const isOfficial = mode === "official";
-          const aO = document.getElementById("modeOfficial");
-          const aC = document.getElementById("modeCommunity");
-          const bO = document.getElementById("modeOfficial_2");
-          const bC = document.getElementById("modeCommunity_2");
-
-          [aO, bO].forEach((el) => el?.classList.toggle("on", isOfficial));
-          [aC, bC].forEach((el) => el?.classList.toggle("on", !isOfficial));
-
-          [aO, bO].forEach((el) => el?.setAttribute("aria-selected", String(isOfficial)));
-          [aC, bC].forEach((el) => el?.setAttribute("aria-selected", String(!isOfficial)));
-
-          const title = isOfficial ? "Official mode" : "Community mode";
-          const text = isOfficial
-            ? "Responses must cite approved knowledge. If uncertain, OmanX escalates."
-            : "Responses may include community tips. Use caution; verify with official offices for high-stakes topics.";
-
-          const modeTextMain = document.getElementById("modeText");
-          const modeTextDrawer = document.getElementById("modeText_2");
-          const modeTitleDrawer = document.getElementById("modeTitle_2");
-
-          if (modeTextMain) modeTextMain.textContent = text;
-          if (modeTextDrawer) modeTextDrawer.textContent = text;
-          if (modeTitleDrawer) modeTitleDrawer.textContent = title;
-        }
-
-        document.getElementById("modeOfficial")?.addEventListener("click", () => setMode("official"));
-        document.getElementById("modeCommunity")?.addEventListener("click", () => setMode("community"));
-        document.getElementById("modeOfficial_2")?.addEventListener("click", () => setMode("official"));
-        document.getElementById("modeCommunity_2")?.addEventListener("click", () => setMode("community"));
-
-        // Duplicate export/copy/print buttons (wire to original buttons)
-        const exportBtn = document.getElementById("exportBtn");
-        const copyBtn = document.getElementById("copyBtn");
-        const printBtn = document.getElementById("printBtn");
-
-        document.getElementById("exportBtn_2")?.addEventListener("click", () => exportBtn?.click());
-        document.getElementById("copyBtn_2")?.addEventListener("click", () => copyBtn?.click());
-        document.getElementById("printBtn_2")?.addEventListener("click", () => printBtn?.click());
-      })();
-    </script>
+    <footer class="footer">
+      <div>
+        © <span id="year"></span> OmanX · Government-grade onboarding MVP
+      </div>
+      <div class="footer-links">
+        <span>Legal/immigration/medical guidance must be validated by official offices.</span>
+        <span class="dot">•</span>
+        <a href="/pitch">Investor & Ministry brief</a>
+      </div>
+    </footer>
 
     <script src="/app.js"></script>
   </body>
