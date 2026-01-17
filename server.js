@@ -350,6 +350,10 @@ app.use(
   })
 );
 
+app.get("/pitch", (req, res) => {
+  res.sendFile(path.join(__dirname, "pitch.html"));
+});
+
 // -----------------------------
 // Startup load knowledge (do NOT crash prod if knowledge is missing)
 // -----------------------------
